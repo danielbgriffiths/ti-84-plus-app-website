@@ -1,0 +1,10 @@
+/Users/danielgriffiths/Desktop/projects/ti-84-plus-python-compiler/compiler/target/release/deps/libwalkdir-5d2dc972019c4c05.rmeta: /Users/danielgriffiths/.cargo/registry/src/index.crates.io-6f17d22bba15001f/walkdir-2.5.0/src/lib.rs /Users/danielgriffiths/.cargo/registry/src/index.crates.io-6f17d22bba15001f/walkdir-2.5.0/src/dent.rs /Users/danielgriffiths/.cargo/registry/src/index.crates.io-6f17d22bba15001f/walkdir-2.5.0/src/error.rs /Users/danielgriffiths/.cargo/registry/src/index.crates.io-6f17d22bba15001f/walkdir-2.5.0/src/util.rs
+
+/Users/danielgriffiths/Desktop/projects/ti-84-plus-python-compiler/compiler/target/release/deps/libwalkdir-5d2dc972019c4c05.rlib: /Users/danielgriffiths/.cargo/registry/src/index.crates.io-6f17d22bba15001f/walkdir-2.5.0/src/lib.rs /Users/danielgriffiths/.cargo/registry/src/index.crates.io-6f17d22bba15001f/walkdir-2.5.0/src/dent.rs /Users/danielgriffiths/.cargo/registry/src/index.crates.io-6f17d22bba15001f/walkdir-2.5.0/src/error.rs /Users/danielgriffiths/.cargo/registry/src/index.crates.io-6f17d22bba15001f/walkdir-2.5.0/src/util.rs
+
+/Users/danielgriffiths/Desktop/projects/ti-84-plus-python-compiler/compiler/target/release/deps/walkdir-5d2dc972019c4c05.d: /Users/danielgriffiths/.cargo/registry/src/index.crates.io-6f17d22bba15001f/walkdir-2.5.0/src/lib.rs /Users/danielgriffiths/.cargo/registry/src/index.crates.io-6f17d22bba15001f/walkdir-2.5.0/src/dent.rs /Users/danielgriffiths/.cargo/registry/src/index.crates.io-6f17d22bba15001f/walkdir-2.5.0/src/error.rs /Users/danielgriffiths/.cargo/registry/src/index.crates.io-6f17d22bba15001f/walkdir-2.5.0/src/util.rs
+
+/Users/danielgriffiths/.cargo/registry/src/index.crates.io-6f17d22bba15001f/walkdir-2.5.0/src/lib.rs:
+/Users/danielgriffiths/.cargo/registry/src/index.crates.io-6f17d22bba15001f/walkdir-2.5.0/src/dent.rs:
+/Users/danielgriffiths/.cargo/registry/src/index.crates.io-6f17d22bba15001f/walkdir-2.5.0/src/error.rs:
+/Users/danielgriffiths/.cargo/registry/src/index.crates.io-6f17d22bba15001f/walkdir-2.5.0/src/util.rs:
