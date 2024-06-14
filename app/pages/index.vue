@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-// Third Party Imports
-import { useScroll } from "@vueuse/core";
-
 // Local Imports
 import * as DATA from "@/data";
+import FeaturedApplications from "~/components/landing/featured-applications.vue";
 
 //
-// Hooks
+// State
 //
 
-// const scroll = useScroll();
+const calculusGroup = computed(() => DATA.calculusGroup);
+const trigonometryGroup = computed(() => DATA.trigGroup);
+const preCalculusGroup = computed(() => DATA.preCalculusGroup);
 </script>
 
 <template>
@@ -125,181 +125,11 @@ import * as DATA from "@/data";
       </div>
     </div>
 
-    <div class="relative isolate overflow-hidden bg-white py-24 sm:py-32">
-      <div
-        class="hidden sm:absolute sm:-top-10 sm:right-1/2 sm:-z-10 sm:mr-10 sm:block sm:transform-gpu sm:blur-3xl"
-        aria-hidden="true"
-      >
-        <div
-          class="aspect-[1097/845] w-[68.5625rem] bg-gradient-to-tr from-[#ffd242] to-[#3772a1] opacity-20"
-          style="
-            clip-path: polygon(
-              74.1% 44.1%,
-              100% 61.6%,
-              97.5% 26.9%,
-              85.5% 0.1%,
-              80.7% 2%,
-              72.5% 32.5%,
-              60.2% 62.4%,
-              52.4% 68.1%,
-              47.5% 58.3%,
-              45.2% 34.5%,
-              27.5% 76.7%,
-              0.1% 64.9%,
-              17.9% 100%,
-              27.6% 76.8%,
-              76.1% 97.7%,
-              74.1% 44.1%
-            );
-          "
-        ></div>
-      </div>
-      <div
-        class="absolute -top-52 left-1/2 -z-10 -translate-x-1/2 transform-gpu blur-3xl sm:top-[-28rem] sm:ml-16 sm:translate-x-0 sm:transform-gpu"
-        aria-hidden="true"
-      >
-        <div
-          class="aspect-[1097/845] w-[68.5625rem] bg-gradient-to-tr from-[#ffd242] to-[#3772a1] opacity-20"
-          style="
-            clip-path: polygon(
-              74.1% 44.1%,
-              100% 61.6%,
-              97.5% 26.9%,
-              85.5% 0.1%,
-              80.7% 2%,
-              72.5% 32.5%,
-              60.2% 62.4%,
-              52.4% 68.1%,
-              47.5% 58.3%,
-              45.2% 34.5%,
-              27.5% 76.7%,
-              0.1% 64.9%,
-              17.9% 100%,
-              27.6% 76.8%,
-              76.1% 97.7%,
-              74.1% 44.1%
-            );
-          "
-        ></div>
-      </div>
-      <div class="mx-auto max-w-7xl px-6 lg:px-8">
-        <div class="mx-auto max-w-2xl lg:mx-0">
-          <h2
-            class="text-4xl font-bold tracking-tight text-neutral-700 sm:text-6xl no-select cursor-default"
-          >
-            Featured Applications
-          </h2>
-          <p class="mt-6 text-lg leading-8 text-base no-select cursor-default">
-            A featured set of applications for the TI-84 Plus CE calculator.
-          </p>
-        </div>
-        <div class="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
-          <div
-            class="grid grid-cols-1 gap-x-8 gap-y-6 text-base font-semibold leading-7 text-white sm:grid-cols-2 md:flex lg:gap-x-10"
-          >
-            <NuxtLink class="btn no-select text-neutral-700">
-              Calculus
-              <div class="badge badge-primary">
-                <div class="tooltip" data-tip="4 Calculus Applications">
-                  <span class="text-neutral-200">+4</span>
-                </div>
-              </div>
-            </NuxtLink>
-            <NuxtLink
-              to="/scripts/trigonometry"
-              class="btn no-select text-neutral-700"
-            >
-              Trigonometry
-              <div class="badge badge-primary">
-                <div class="tooltip" data-tip="12 Trigonometry Applications">
-                  <span class="text-neutral-200">+12</span>
-                </div>
-              </div>
-            </NuxtLink>
-            <NuxtLink
-              to="/scripts/pre_calculus"
-              class="btn no-select text-neutral-700"
-            >
-              Pre Calculus
-              <div class="badge badge-primary">
-                <div class="tooltip" data-tip="14 Pre Calculus Applications">
-                  <span class="text-neutral-200">+14</span>
-                </div>
-              </div>
-            </NuxtLink>
-          </div>
-          <div class="mt-16 flex justify-start items-end">
-            <div
-              class="mr-4 h-full"
-              v-for="(item, idx) in Array.from(
-                DATA.calculusGroup.values(),
-              ).slice(0, 3)"
-              :key="idx"
-            >
-              <div class="card w-96 bg-base-100 shadow-xl">
-                <div class="card-body">
-                  <h2
-                    class="card-title text-neutral-700 no-select cursor-default"
-                  >
-                    {{ item.title }}
-                  </h2>
-                  <p class="text-neutral-600 no-select cursor-default">
-                    {{ item.description.slice(0, 60) }} ...
-                  </p>
-                  <div class="card-actions justify-end">
-                    <NuxtLink
-                      :to="`/scripts/calculus/${item.name}`"
-                      class="btn btn-ghost text-neutral-400 no-select"
-                    >
-                      Get Application
-
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        class="size-4 text-neutral-400"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
-                        />
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                        />
-                      </svg>
-                    </NuxtLink>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <NuxtLink to="/scripts" class="btn btn-ghost">
-              See More
-
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="size-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-                />
-              </svg>
-            </NuxtLink>
-          </div>
-        </div>
-      </div>
-    </div>
+    <FeaturedApplications
+      :calculus-group="calculusGroup"
+      :trigonometry-group="trigonometryGroup"
+      :pre-calculus-group="preCalculusGroup"
+    />
 
     <div class="bg-white py-24 sm:py-32">
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
