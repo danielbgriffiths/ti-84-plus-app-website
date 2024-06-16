@@ -10,7 +10,7 @@ const i18n = useI18n();
 //
 
 const copyrightText = computed<string>(() => {
-  return i18n.t("footer.copyrightText", { year: new Date().getFullYear() });
+  return i18n.t("footer.copyRight", { year: new Date().getFullYear() });
 });
 </script>
 

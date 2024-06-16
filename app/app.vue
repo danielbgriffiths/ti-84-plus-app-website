@@ -3,6 +3,10 @@
 import "highlight.js/styles/atom-one-dark.min.css";
 import "daisyui/dist/full.css";
 
+// Local Imports
+import { LocaleCode } from "~/types";
+import { getLocalCodes, LOCAL_STORAGE_LOCALE_KEY } from "~/constants";
+
 //
 // Setup
 //
@@ -28,6 +32,28 @@ useHead({
 useSeoMeta({
   ogImage: "/img.png",
 });
+
+const i18n = useI18n();
+
+//
+// Lifecycle
+//
+
+onBeforeMount((): void => {
+  i18n.locale.value = getLocaleCodeFromStorage();
+});
+
+//
+// Functions
+//
+
+function getLocaleCodeFromStorage(): LocaleCode {
+  const LOCALE_CODES = getLocalCodes(i18n.t);
+  const storedCode = localStorage.getItem(LOCAL_STORAGE_LOCALE_KEY);
+  if (!Object.keys(LOCALE_CODES)?.includes(storedCode as LocaleCode))
+    return LocaleCode.USEnglish;
+  return storedCode as LocaleCode;
+}
 </script>
 
 <template>

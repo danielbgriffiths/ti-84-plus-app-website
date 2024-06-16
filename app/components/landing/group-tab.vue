@@ -5,6 +5,7 @@ import type { AppGroup } from "~/types";
 interface Props {
   label: string;
   group: AppGroup;
+  isActive: boolean;
 }
 
 //
@@ -27,11 +28,17 @@ const tooltipText = computed<string>(() =>
 </script>
 
 <template>
-  <NuxtLink class="btn no-select text-neutral-700">
-    {{ label }}
-    <div class="badge badge-primary">
-      <div class="tooltip" :data-tip="tooltipText">
-        <span class="text-neutral-200">+{{ group.size }}</span>
+  <NuxtLink
+    role="tab"
+    class="tab min-h-[3rem]"
+    :class="{ 'tab-active': isActive }"
+  >
+    <div class="p-2 text-neutral-700 no-select">
+      {{ label }}
+      <div class="badge badge-primary">
+        <div class="tooltip" :data-tip="tooltipText">
+          <span class="text-neutral-200">+{{ group.size }}</span>
+        </div>
       </div>
     </div>
   </NuxtLink>

@@ -1,10 +1,10 @@
-import { QuestionSlug } from "~/types";
+import { CurrencyCode, LocaleCode, QuestionSlug } from "~/types";
 
 export default defineI18nConfig(() => ({
   legacy: false,
-  locale: "en",
+  locale: LocaleCode.USEnglish,
   messages: {
-    en: {
+    [LocaleCode.USEnglish]: {
       landing: {
         featuredApplications: {
           title: "Featured Applications",
@@ -107,6 +107,57 @@ export default defineI18nConfig(() => ({
         info: "Info",
         donate: "Donate",
         compiler: "Compiler",
+      },
+      donate: {
+        title: "Donate",
+        caption: "Help support the development of these applications.",
+        secondary: {
+          title: "Supporting Developers",
+          caption:
+            "Support for the time and effort attended towards these projects is forever appreciated. It facilitates more open work with the aim of benefiting everyone.",
+        },
+        content: {
+          title: "Discover the Why",
+          future: "Enable Future Projects",
+          speed: "Speed Up Development",
+          visibility: "Enhance Project Visibility",
+          openSource: "Support Open Source Development",
+        },
+        chooseYourDonation: "Choose your donation",
+        donate: "Donate",
+        policyText:
+          "Refunds are not available except in circumstances granted.",
+      },
+      currencyTexts: {
+        [CurrencyCode.USD]: "US Dollar",
+        [CurrencyCode.EUR]: "Euro",
+        [CurrencyCode.JPY]: "Japanese Yen",
+        [CurrencyCode.GBP]: "British Pound Sterling",
+        [CurrencyCode.AUD]: "Australian Dollar",
+        [CurrencyCode.CAD]: "Canadian Dollar",
+        [CurrencyCode.CHF]: "Swiss Franc",
+        [CurrencyCode.CNY]: "Chinese Yuan",
+        [CurrencyCode.SEK]: "Swedish Krona",
+        [CurrencyCode.NZD]: "New Zealand Dollar",
+        [CurrencyCode.KRW]: "South Korean Won",
+        [CurrencyCode.SGD]: "Singapore Dollar",
+        [CurrencyCode.NOK]: "Norwegian Krone",
+        [CurrencyCode.MXN]: "Mexican Peso",
+        [CurrencyCode.INR]: "Indian Rupee",
+        [CurrencyCode.RUB]: "Russian Ruble",
+        [CurrencyCode.ZAR]: "South African Rand",
+        [CurrencyCode.TRY]: "Turkish Lira",
+        [CurrencyCode.BRL]: "Brazilian Real",
+      },
+      localeTexts: {
+        [LocaleCode.USEnglish]: "English (United States)",
+        [LocaleCode.ESSpanish]: "Spanish (Spain)",
+        [LocaleCode.FRFrench]: "French (France)",
+        [LocaleCode.DEGerman]: "German (Germany)",
+        [LocaleCode.CNChinese]: "Chinese (Simplified, China)",
+        [LocaleCode.JPJapanese]: "Japanese (Japan)",
+        [LocaleCode.RURussian]: "Russian (Russia)",
+        [LocaleCode.BRPortuguese]: "Portuguese (Brazil)",
       },
       seeMore: "See More",
       getApplication: "Get Application",

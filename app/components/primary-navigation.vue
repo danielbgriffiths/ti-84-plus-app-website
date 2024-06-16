@@ -1,10 +1,27 @@
 <script setup lang="ts">
+// Local Imports
+import Donate from "~/components/icons/donate.vue";
+import { getLocalCodes, LOCAL_STORAGE_LOCALE_KEY } from "~/constants";
+import type { LocaleCode } from "~/types";
+import Globe from "~/components/icons/globe.vue";
+
+//
+// Setup
+//
+
+const i18n = useI18n();
+
+const LOCALE_TEXTS = getLocalCodes(i18n.t);
+
 //
 // State
 //
 
 const hasBackground = ref<boolean>(false);
 const navRef = ref<HTMLElement | null>(null);
+const activeLocaleText = computed<string>(
+  () => LOCALE_TEXTS[i18n.locale.value as LocaleCode]!,
+);
 
 //
 // Lifecycle
@@ -42,12 +59,17 @@ function onScroll(): void {
     hasBackground.value = false;
   }
 }
+
+function onSelectLocale(locale: string): void {
+  i18n.locale.value = locale;
+  localStorage.setItem(LOCAL_STORAGE_LOCALE_KEY, locale);
+}
 </script>
 
 <template>
   <nav
     ref="navRef"
-    class="flex items-center justify-between p-6 lg:px-8"
+    class="flex items-center justify-between px-6 lg:px-8"
     aria-label="Global"
   >
     <div class="flex lg:flex-1">
@@ -58,27 +80,44 @@ function onScroll(): void {
     </div>
     <div class="hidden lg:flex lg:gap-x-12">
       <NuxtLink
-        href="#applications-section"
+        to="/#applications-section"
         class="text-sm font-semibold leading-6 text-neutral-700"
       >
         {{ $t("navigation.applications") }}
       </NuxtLink>
       <NuxtLink
-        href="#compiler-section"
+        to="/#compiler-section"
         class="text-sm font-semibold leading-6 text-neutral-700"
       >
         {{ $t("navigation.compiler") }}
       </NuxtLink>
       <NuxtLink
-        href="#info-section"
+        to="/#info-section"
         class="text-sm font-semibold leading-6 text-neutral-700"
       >
         {{ $t("navigation.info") }}
       </NuxtLink>
     </div>
     <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+      <div class="dropdown dropdown-bottom">
+        <div tabindex="0" role="button" class="btn btn-ghost mr-2">
+          <Globe />
+          {{ activeLocaleText }}
+        </div>
+        <ul
+          tabindex="0"
+          class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+        >
+          <li
+            v-for="item in Object.keys(LOCALE_TEXTS)"
+            :class="{ 'is-active': i18n.locale.value === item }"
+          >
+            <a @click="() => onSelectLocale(item)">{{ LOCALE_TEXTS[item] }}</a>
+          </li>
+        </ul>
+      </div>
       <NuxtLink
-        class="text-sm font-semibold leading-6 text-neutral-700 flex"
+        class="text-sm font-semibold leading-6 text-neutral-700 flex items-center"
         to="/donate"
       >
         {{ $t("navigation.donate") }} <Donate class="ml-2" />

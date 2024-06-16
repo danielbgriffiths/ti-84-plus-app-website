@@ -1,9 +1,7 @@
 <script lang="ts" setup>
 // Local Imports
-import ApplicationCard from "~/components/landing/application-card.vue";
-import GroupLink from "~/components/landing/group-link.vue";
-import LongRightArrow from "~/components/icons/long-right-arrow.vue";
-import type { AppGroup } from "~/types";
+import { type AppGroup } from "~/types";
+import FeaturedApplicationsTabs from "~/components/landing/featured-applications-tabs.vue";
 
 interface Props {
   calculusGroup: AppGroup;
@@ -16,18 +14,13 @@ interface Props {
 //
 
 defineProps<Props>();
-
-//
-// Event Handlers
-//
-
-function onSeeMore(): void {
-  console.log("See More");
-}
 </script>
 
 <template>
-  <div class="relative isolate overflow-hidden bg-white py-24 sm:py-32">
+  <div
+    id="applications-section"
+    class="relative isolate overflow-hidden bg-white py-24 sm:py-32"
+  >
     <div
       class="hidden sm:absolute sm:-top-10 sm:right-1/2 sm:-z-10 sm:mr-10 sm:block sm:transform-gpu sm:blur-3xl"
       aria-hidden="true"
@@ -96,35 +89,11 @@ function onSeeMore(): void {
         </p>
       </div>
       <div class="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
-        <div
-          class="grid grid-cols-1 gap-x-8 gap-y-6 text-base font-semibold leading-7 text-white sm:grid-cols-2 md:flex lg:gap-x-10"
-        >
-          <GroupLink :label="$t('group.calculus')" :group="calculusGroup" />
-          <GroupLink
-            :label="$t('group.trigonometry')"
-            :group="trigonometryGroup"
-          />
-          <GroupLink
-            :label="$t('group.preCalculus')"
-            :group="preCalculusGroup"
-          />
-        </div>
-        <div class="mt-16 flex justify-start items-end">
-          <template
-            v-for="(item, idx) in Array.from(calculusGroup.values()).slice(
-              0,
-              3,
-            )"
-            :key="idx"
-          >
-            <ApplicationCard :item="item" />
-          </template>
-
-          <button class="btn btn-ghost" @click="onSeeMore">
-            {{ $t("seeMore") }}
-            <LongRightArrow />
-          </button>
-        </div>
+        <FeaturedApplicationsTabs
+          :calculus-group="calculusGroup"
+          :pre-calculus-group="preCalculusGroup"
+          :trigonometry-group="trigonometryGroup"
+        />
       </div>
     </div>
   </div>
