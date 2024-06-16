@@ -1,13 +1,14 @@
 <script lang="ts" setup>
 // Local Imports
-import * as DATA from "@/data";
 import ApplicationCard from "~/components/landing/application-card.vue";
 import GroupLink from "~/components/landing/group-link.vue";
+import LongRightArrow from "~/components/icons/long-right-arrow.vue";
+import type { AppGroup } from "~/types";
 
 interface Props {
-  calculusGroup: Map<string, any>;
-  preCalculusGroup: Map<string, any>;
-  trigonometryGroup: Map<string, any>;
+  calculusGroup: AppGroup;
+  preCalculusGroup: AppGroup;
+  trigonometryGroup: AppGroup;
 }
 
 //
@@ -53,7 +54,7 @@ function onSeeMore(): void {
             74.1% 44.1%
           );
         "
-      ></div>
+      />
     </div>
     <div
       class="absolute -top-52 left-1/2 -z-10 -translate-x-1/2 transform-gpu blur-3xl sm:top-[-28rem] sm:ml-16 sm:translate-x-0 sm:transform-gpu"
@@ -81,26 +82,32 @@ function onSeeMore(): void {
             74.1% 44.1%
           );
         "
-      ></div>
+      />
     </div>
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
       <div class="mx-auto max-w-2xl lg:mx-0">
         <h2
           class="text-4xl font-bold tracking-tight text-neutral-700 sm:text-6xl no-select cursor-default"
         >
-          Featured Applications
+          {{ $t("landing.featuredApplications.title") }}
         </h2>
         <p class="mt-6 text-lg leading-8 text-base no-select cursor-default">
-          A featured set of applications for the TI-84 Plus CE calculator.
+          {{ $t("landing.featuredApplications.caption") }}
         </p>
       </div>
       <div class="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
         <div
           class="grid grid-cols-1 gap-x-8 gap-y-6 text-base font-semibold leading-7 text-white sm:grid-cols-2 md:flex lg:gap-x-10"
         >
-          <GroupLink label="Calculus" :group="calculusGroup" />
-          <GroupLink label="Trigonometry" :group="trigonometryGroup" />
-          <GroupLink label="Pre Calculus" :group="preCalculusGroup" />
+          <GroupLink :label="$t('group.calculus')" :group="calculusGroup" />
+          <GroupLink
+            :label="$t('group.trigonometry')"
+            :group="trigonometryGroup"
+          />
+          <GroupLink
+            :label="$t('group.preCalculus')"
+            :group="preCalculusGroup"
+          />
         </div>
         <div class="mt-16 flex justify-start items-end">
           <template
@@ -114,22 +121,8 @@ function onSeeMore(): void {
           </template>
 
           <button class="btn btn-ghost" @click="onSeeMore">
-            See More
-
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="size-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-              />
-            </svg>
+            {{ $t("seeMore") }}
+            <LongRightArrow />
           </button>
         </div>
       </div>

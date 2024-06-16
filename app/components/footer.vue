@@ -1,10 +1,24 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+//
+// Setup
+//
+
+const i18n = useI18n();
+
+//
+// State
+//
+
+const copyrightText = computed<string>(() => {
+  return i18n.t("footer.copyrightText", { year: new Date().getFullYear() });
+});
+</script>
 
 <template>
   <footer class="footer footer-center p-4 bg-base-300 text-base-content">
     <aside>
       <p>
-        Copyright © 2024 - All right reserved by
+        {{ copyrightText }}
         <a href="https://github.com/danielbgriffiths">Daniel Griffiths</a>
       </p>
     </aside>
