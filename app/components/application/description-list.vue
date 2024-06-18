@@ -4,7 +4,7 @@ import { type AppItem, GroupName } from "~/types";
 
 interface Props {
   item: AppItem;
-  group: GroupName;
+  groupName: GroupName | undefined;
 }
 
 //
@@ -73,7 +73,7 @@ const documentationText = computed<string>(() =>
           <dd
             class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
           >
-            {{ group }}
+            {{ groupName }}
           </dd>
         </div>
         <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">

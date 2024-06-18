@@ -6,9 +6,10 @@ import { asyncComputed } from "@vueuse/core";
 
 // Local Imports
 import Heading from "~/components/application/heading.vue";
-import * as DATA from "@/data";
-import { AppItem, GroupName } from "~/types";
 import DescriptionList from "~/components/application/description-list.vue";
+import type { AppItem } from "~/types";
+import { GroupName } from "~/types";
+import * as DATA from "@/data";
 
 //
 // Setup
@@ -26,7 +27,7 @@ const route = useRoute();
 // State
 //
 
-const groupName = computed<GroupName>(() => {
+const groupName = computed<GroupName | undefined>(() => {
   switch (route.params.group) {
     case "calculus":
       return GroupName.Calculus;
@@ -145,7 +146,7 @@ async function onDownload(): Promise<void> {
 <template>
   <NuxtLayout>
     <Heading :item="item" />
-    <DescriptionList :item="item" :group="groupName" />
+    <DescriptionList :item="item" :group-name="groupName" />
 
     <p>{{ item!.description }}</p>
 

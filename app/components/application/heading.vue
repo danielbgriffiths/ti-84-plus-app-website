@@ -1,11 +1,11 @@
 <script setup lang="ts">
 // Local Imports
-import type { AppItem } from "~/types";
 import Eye from "~/components/icons/eye.vue";
 import Downloads from "~/components/icons/downloads.vue";
 import Calendar from "~/components/icons/calendar.vue";
 import Share from "~/components/icons/share.vue";
 import CodeBracket from "~/components/icons/code-bracket.vue";
+import type { AppItem } from "~/types";
 
 interface Props {
   item: AppItem;
