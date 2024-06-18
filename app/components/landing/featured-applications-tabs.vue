@@ -125,7 +125,25 @@ function onChangePage(page: number): void {
     </template>
   </div>
   <div class="flex justify-between items-center mt-8 w-full">
-    <div />
+    <div>
+      <p class="text-sm text-neutral-600">
+        {{ $t("showing") }}
+        <span class="font-medium">{{ startSliceIndex + 1 }}</span>
+        {{ $t("to") }}
+        <span class="font-medium">
+          {{
+            groupItems.length > endSliceIndex
+              ? endSliceIndex
+              : groupItems.length
+          }}
+        </span>
+        {{ $t("of") }}
+        <span class="font-medium">
+          {{ groupItems.length }}
+        </span>
+        {{ $t("results") }}
+      </p>
+    </div>
     <ApplicationPagination
       :active-page="activePage"
       :on-change-page="onChangePage"

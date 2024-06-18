@@ -25,3 +25,7 @@ logs
 
 /.env
 .idea/
+server/plugins/dev.db
+/server/plugins/dev.db
+./server/plugins/dev.db
+dev.db

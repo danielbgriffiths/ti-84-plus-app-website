@@ -59,3 +59,8 @@ export interface SelectOption {
   value: number | string;
   label: string;
 }
+
+export type QuestionItem = {
+  question: string;
+  answer: string;
+};

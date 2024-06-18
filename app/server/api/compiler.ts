@@ -2,7 +2,6 @@
 import { execFile } from "child_process";
 import path from "path";
 import { fileURLToPath } from "url";
-import { defineEventHandler, readBody, createError } from "h3";
 
 export default defineEventHandler(async (event) => {
   try {

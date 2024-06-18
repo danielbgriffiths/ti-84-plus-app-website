@@ -1,5 +1,18 @@
-import { CurrencyCode, LocaleCode, type SelectOption } from "~/types";
-import { useI18n } from "#imports";
+import {
+  CurrencyCode,
+  GroupName,
+  LocaleCode,
+  type QuestionItem,
+  QuestionSlug,
+  type SelectOption,
+} from "~/types";
+
+export function getPrettyGroupName(
+  t: (key: string) => string,
+  groupName: GroupName,
+): string {
+  return t(`groupNames.${groupName}`);
+}
 
 export const CURRENCY_SYMBOLS: Record<CurrencyCode, string> = {
   [CurrencyCode.USD]: "$", // US Dollar
@@ -74,4 +87,78 @@ export function getPageSizeOptions(t: (key: string) => string): SelectOption[] {
     { value: 12, label: "12" },
     { value: -1, label: t("all") },
   ];
+}
+
+export const GITHUB_URL =
+  "https://github.com/danielbgriffiths/ti-84-plus-python-applications";
+
+export function getFrequentlyAskedQuestions(
+  t: (key: string) => string,
+): Map<QuestionSlug, QuestionItem> {
+  return new Map([
+    [
+      QuestionSlug.HowToUsePythonApplications,
+      {
+        question: t(
+          `landing.info.faqQuestions.${QuestionSlug.HowToUsePythonApplications}`,
+        ),
+        answer: t(
+          `landing.info.faqAnswers.${QuestionSlug.HowToUsePythonApplications}`,
+        ),
+      },
+    ],
+    [
+      QuestionSlug.SizeLimitPythonApplications,
+      {
+        question: t(
+          `landing.info.faqQuestions.${QuestionSlug.SizeLimitPythonApplications}`,
+        ),
+        answer: t(
+          `landing.info.faqAnswers.${QuestionSlug.SizeLimitPythonApplications}`,
+        ),
+      },
+    ],
+    [
+      QuestionSlug.DependenciesPythonApplications,
+      {
+        question: t(
+          `landing.info.faqQuestions.${QuestionSlug.DependenciesPythonApplications}`,
+        ),
+        answer: t(
+          `landing.info.faqAnswers.${QuestionSlug.DependenciesPythonApplications}`,
+        ),
+      },
+    ],
+    [
+      QuestionSlug.UploadApplications,
+      {
+        question: t(
+          `landing.info.faqQuestions.${QuestionSlug.UploadApplications}`,
+        ),
+        answer: t(`landing.info.faqAnswers.${QuestionSlug.UploadApplications}`),
+      },
+    ],
+    [
+      QuestionSlug.UseApplicationsInClass,
+      {
+        question: t(
+          `landing.info.faqQuestions.${QuestionSlug.UseApplicationsInClass}`,
+        ),
+        answer: t(
+          `landing.info.faqAnswers.${QuestionSlug.UseApplicationsInClass}`,
+        ),
+      },
+    ],
+    [
+      QuestionSlug.VerifyAccuracyPythonApplications,
+      {
+        question: t(
+          `landing.info.faqQuestions.${QuestionSlug.VerifyAccuracyPythonApplications}`,
+        ),
+        answer: t(
+          `landing.info.faqAnswers.${QuestionSlug.VerifyAccuracyPythonApplications}`,
+        ),
+      },
+    ],
+  ]);
 }

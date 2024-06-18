@@ -1,4 +1,4 @@
-import { CurrencyCode, LocaleCode, QuestionSlug } from "~/types";
+import { CurrencyCode, GroupName, LocaleCode, QuestionSlug } from "~/types";
 
 export default defineI18nConfig(() => ({
   legacy: false,
@@ -61,6 +61,20 @@ export default defineI18nConfig(() => ({
               "Am I allowed to use these applications in class?",
             [QuestionSlug.VerifyAccuracyPythonApplications]:
               "How are you able to verify the accuracy of the Python applications?",
+          },
+          faqAnswers: {
+            [QuestionSlug.HowToUsePythonApplications]:
+              "Using Python applications with your TI-84 Plus CE is straightforward. First, ensure your calculator is updated with the latest operating system that supports Python. Then, download the Python scripts from our website, transfer them to your calculator using TI Connect CE software, and follow the instructions provided with each script.",
+            [QuestionSlug.SizeLimitPythonApplications]:
+              "Yes, there is a size limit imposed by the calculator's memory. However, our Python applications are optimized to be compact while delivering powerful functionality. Each script's size is indicated on our website for transparency.",
+            [QuestionSlug.DependenciesPythonApplications]:
+              "Due to the calculator's limited environment, Python applications for the TI-84 Plus typically do not support external dependencies like traditional Python packages. However, our scripts are self-contained and designed to operate independently on the calculator.",
+            [QuestionSlug.UploadApplications]:
+              "You can upload multiple Python applications to your calculator as long as they fit within the available memory. We recommend managing your applications based on your calculator's storage capacity to ensure optimal performance.",
+            [QuestionSlug.UseApplicationsInClass]:
+              "Generally, the use of calculator applications in class depends on your school's policies. Our Python scripts are educational tools designed to aid in learning pre-calculus, trigonometry, and calculus. Check with your teacher or school administration for specific guidelines on calculator use during class.",
+            [QuestionSlug.VerifyAccuracyPythonApplications]:
+              "Ensuring accuracy is paramount to us. Our Python applications undergo rigorous testing and verification by experienced mathematics educators and software developers. We also encourage user feedback to continuously improve and refine our scripts.",
           },
         },
         donate: {
@@ -168,12 +182,26 @@ export default defineI18nConfig(() => ({
       getStarted: "Get started",
       learnMore: "Learn more",
       all: "All",
-      download: "Download",
+      createDownload: "Create Download",
       category: "Category",
       description: "Description",
-      exampleUsages: "Example Usages",
       testCoverage: "Test Coverage",
       files: "Files",
+      showing: "Showing",
+      to: "to",
+      of: "of",
+      results: "results",
+      views: "{count} views",
+      downloads: "{count} downloads",
+      created: "Created {date}",
+      ratings: "{count} ratings",
+      share: "Share",
+      github: "Github",
+      groupNames: {
+        [GroupName.Calculus]: "Calculus",
+        [GroupName.Trigonometry]: "Trigonometry",
+        [GroupName.PreCalculus]: "Pre Calculus",
+      },
       application: {
         info: {
           applicationInformation: "Application Information",

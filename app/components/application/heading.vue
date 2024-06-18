@@ -4,14 +4,38 @@ import Eye from "~/components/icons/eye.vue";
 import Downloads from "~/components/icons/downloads.vue";
 import Calendar from "~/components/icons/calendar.vue";
 import Share from "~/components/icons/share.vue";
-import CodeBracket from "~/components/icons/code-bracket.vue";
+import Rating from "~/components/icons/rating.vue";
+import RatingStars from "~/components/application/rating-stars.vue";
 import type { AppItem } from "~/types";
+import { GITHUB_URL } from "~/constants";
 
 interface Props {
   item: AppItem;
 }
 
+//
+// Setup
+//
+
 defineProps<Props>();
+const i18n = useI18n();
+
+//
+// State
+//
+
+const viewsText = computed<string>(() => {
+  return i18n.t("views", { count: 1023 });
+});
+const downloadsText = computed<string>(() => {
+  return i18n.t("downloads", { count: 64 });
+});
+const createdText = computed<string>(() => {
+  return i18n.t("created", { date: "January 9, 2020" });
+});
+const ratingsText = computed<string>(() => {
+  return i18n.t("ratings", { count: 23 });
+});
 </script>
 
 <template>
@@ -21,51 +45,61 @@ defineProps<Props>();
     <div class="lg:flex lg:items-center lg:justify-between items-end">
       <div class="min-w-0 flex-1">
         <h2
-          class="text-2xl font-bold leading-7 text-neutral-700 sm:truncate sm:text-3xl sm:tracking-tight"
+          class="text-2xl font-bold leading-7 text-neutral-700 sm:truncate sm:text-3xl sm:tracking-tight no-select cursor-default"
         >
           {{ item.title }}
         </h2>
         <div
           class="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6"
         >
-          <div class="mt-2 flex items-center text-sm text-neutral-600">
-            <Eye />
-            {{ 1023 }} views
+          <div
+            class="mt-2 flex items-center text-sm text-neutral-600 no-select cursor-default"
+          >
+            <Eye class="mr-2" />
+            {{ viewsText }}
           </div>
-          <div class="mt-2 flex items-center text-sm text-neutral-600">
-            <Downloads />
-            {{ 64 }} downloads
+          <div
+            class="mt-2 flex items-center text-sm text-neutral-600 no-select cursor-default"
+          >
+            <Downloads class="mr-2" />
+            {{ downloadsText }}
           </div>
-          <div class="mt-2 flex items-center text-sm text-neutral-600">
-            <Calendar />
-            Created {{ "January 9, 2020" }}
+          <div
+            class="mt-2 flex items-center text-sm text-neutral-600 no-select cursor-default"
+          >
+            <Rating class="mr-2" />
+            {{ ratingsText }}
+          </div>
+          <div
+            class="mt-2 flex items-center text-sm text-neutral-600 no-select cursor-default"
+          >
+            <Calendar class="mr-2" />
+            {{ createdText }}
           </div>
         </div>
       </div>
       <div class="mt-5 flex items-center justify-end lg:ml-4 lg:mt-0">
-        <div class="rating mx-2">
-          <input type="radio" name="rating-1" class="mask mask-star" />
-          <input type="radio" name="rating-1" class="mask mask-star" checked />
-          <input type="radio" name="rating-1" class="mask mask-star" />
-          <input type="radio" name="rating-1" class="mask mask-star" />
-          <input type="radio" name="rating-1" class="mask mask-star" />
-        </div>
+        <RatingStars />
 
         <button
           type="button"
           class="inline-flex items-center btn btn-ghost mx-2"
         >
           <Share />
-          Share
+          {{ $t("share") }}
         </button>
 
-        <button
-          type="button"
+        <NuxtLink
+          :href="GITHUB_URL"
           class="inline-flex items-center btn btn-ghost mx-2"
         >
-          <CodeBracket />
-          Repo
-        </button>
+          <img
+            src="/assets/github-mark.png"
+            alt="Github Image"
+            class="w-[18px] h-[18px]"
+          />
+          {{ $t("github") }}
+        </NuxtLink>
       </div>
     </div>
   </header>

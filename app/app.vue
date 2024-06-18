@@ -57,5 +57,6 @@ function getLocaleCodeFromStorage(): LocaleCode {
 </script>
 
 <template>
+  <NuxtLoadingIndicator />
   <NuxtPage />
 </template>

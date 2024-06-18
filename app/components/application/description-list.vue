@@ -1,6 +1,13 @@
 <script setup lang="ts">
+// Third Party Imports
+import { asyncComputed } from "@vueuse/core";
+import highlight from "highlight.js";
+import python from "highlight.js/lib/languages/python";
+
 // Local Imports
+import ArrowDownTray from "~/components/icons/arrow-down-tray.vue";
 import { type AppItem, GroupName } from "~/types";
+import { getPrettyGroupName } from "~/constants";
 
 interface Props {
   item: AppItem;
@@ -11,8 +18,10 @@ interface Props {
 // Setup
 //
 
+highlight.registerLanguage("python", python);
 const props = defineProps<Props>();
 const i18n = useI18n();
+const PRETTY_GROUP_NAME = getPrettyGroupName(i18n.t, props.groupName!);
 
 //
 // State
@@ -21,63 +30,75 @@ const i18n = useI18n();
 const documentationText = computed<string>(() =>
   i18n.t("application.info.documentationCaption", { name: props.item.title }),
 );
+
+const testFile = asyncComputed<string>(async () => {
+  if (!props.item) return "";
+
+  const data: Response = await fetch(props.item.uri + "/test.py");
+  const blob = await data.blob();
+  const text = await blob.text();
+
+  return highlight.highlight(text, {
+    language: "python",
+  }).value;
+});
+
+const readmeFile = asyncComputed<string>(async () => {
+  if (!props.item) return "";
+
+  const data: Response = await fetch(props.item.uri + "/README.md");
+  const blob = await data.blob();
+  return await blob.text();
+});
 </script>
 
 <template>
   <div class="mx-auto max-w-7xl mb-8 p-4 bg-white shadow-sm rounded-md">
     <div class="flex justify-between items-center">
       <div class="px-4 sm:px-0">
-        <h3 class="text-base font-semibold leading-7 text-gray-900">
+        <h3
+          class="text-base font-semibold leading-7 text-gray-900 no-select cursor-default"
+        >
           {{ $t("application.info.applicationInformation") }}
         </h3>
-        <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
+        <p
+          class="mt-1 max-w-2xl text-sm leading-6 text-gray-500 no-select cursor-default"
+        >
           {{ documentationText }}
         </p>
       </div>
       <div
-        class="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6 w-[50%]"
+        class="flex items-center justify-end py-4 pl-4 pr-5 text-sm leading-6 w-[50%]"
       >
-        <div class="flex w-0 flex-1 items-center">
-          <svg
-            class="h-5 w-5 flex-shrink-0 text-gray-400"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M15.621 4.379a3 3 0 00-4.242 0l-7 7a3 3 0 004.241 4.243h.001l.497-.5a.75.75 0 011.064 1.057l-.498.501-.002.002a4.5 4.5 0 01-6.364-6.364l7-7a4.5 4.5 0 016.368 6.36l-3.455 3.553A2.625 2.625 0 119.52 9.52l3.45-3.451a.75.75 0 111.061 1.06l-3.45 3.451a1.125 1.125 0 001.587 1.595l3.454-3.553a3 3 0 000-4.242z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          <div class="ml-4 flex min-w-0 flex-1 gap-2">
-            <span class="truncate font-medium">
-              {{ "application_name-download" }}.pdf
-            </span>
-            <span class="flex-shrink-0 text-gray-400"><1kb</span>
-          </div>
-        </div>
         <div class="ml-4 flex-shrink-0">
-          <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
-            {{ $t("download") }}
-          </a>
+          <button class="btn btn-neutral text-white">
+            <ArrowDownTray class="text-white" />
+            {{ $t("createDownload") }}
+          </button>
         </div>
       </div>
     </div>
     <div class="mt-6 border-t border-gray-100">
       <dl class="divide-y divide-gray-100">
         <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-          <dt class="text-sm font-medium leading-6 text-gray-900">
+          <dt
+            class="text-sm font-medium leading-6 text-gray-900 no-select cursor-default"
+          >
             {{ $t("category") }}
           </dt>
           <dd
-            class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
+            class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 no-select cursor-default"
           >
-            {{ groupName }}
+            {{ PRETTY_GROUP_NAME }}
           </dd>
         </div>
-        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-          <dt class="text-sm font-medium leading-6 text-gray-900">
+        <div
+          v-if="item?.description"
+          class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
+        >
+          <dt
+            class="text-sm font-medium leading-6 text-gray-900 no-select cursor-default"
+          >
             {{ $t("description") }}
           </dt>
           <dd
@@ -86,34 +107,40 @@ const documentationText = computed<string>(() =>
             {{ item.description }}
           </dd>
         </div>
-        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-          <dt class="text-sm font-medium leading-6 text-gray-900">
-            {{ $t("exampleUsages") }}
+        <div
+          v-if="readmeFile"
+          class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
+        >
+          <dt
+            class="text-sm font-medium leading-6 text-gray-900 no-select cursor-default"
+          >
+            README.md
           </dt>
           <dd
             class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
           >
-            margotfoster@example.com
+            <div v-html="readmeFile" />
           </dd>
         </div>
-        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-          <dt class="text-sm font-medium leading-6 text-gray-900">
+        <div
+          v-if="testFile"
+          class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
+        >
+          <dt
+            class="text-sm font-medium leading-6 text-gray-900 no-select cursor-default"
+          >
             {{ $t("testCoverage") }}
           </dt>
           <dd
             class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
           >
-            $120,000
-          </dd>
-        </div>
-        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-          <dt class="text-sm font-medium leading-6 text-gray-900">
-            {{ $t("files") }}
-          </dt>
-          <dd
-            class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
-          >
-            ... code blocks ...
+            <div class="mockup-code shadow-xl pb-0">
+              <pre class="px-8">
+                <span>
+                  <code class="language-html no-select cursor-default" v-html="testFile" />
+                </span>
+              </pre>
+            </div>
           </dd>
         </div>
       </dl>
