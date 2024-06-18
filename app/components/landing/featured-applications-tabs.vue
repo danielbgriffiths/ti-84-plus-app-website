@@ -1,8 +1,10 @@
 <script setup lang="ts">
 // Local Imports
-import ApplicationCard from "~/components/landing/application-card.vue";
 import GroupTab from "~/components/landing/group-tab.vue";
-import { type AppGroup, GroupName } from "~/types";
+import ApplicationPagination from "~/components/landing/application-pagination.vue";
+import ApplicationCard from "~/components/landing/application-card.vue";
+import { type AppGroup, type AppItem, GroupName } from "~/types";
+import { getPageSizeOptions } from "~/constants";
 
 interface Props {
   calculusGroup: AppGroup;
@@ -14,7 +16,10 @@ interface Props {
 // Setup
 //
 
-defineProps<Props>();
+const props = defineProps<Props>();
+const i18n = useI18n();
+
+const pageSizeOptions = getPageSizeOptions(i18n.t);
 
 //
 // State
@@ -22,7 +27,43 @@ defineProps<Props>();
 
 const activeTab = ref<GroupName>(GroupName.Calculus);
 const activePage = ref<number>(1);
-const pageSize = 6;
+const pageSize = ref<number>(6);
+const groupItems = computed<AppItem[]>(() => {
+  switch (activeTab.value) {
+    case GroupName.Calculus:
+      return Array.from(props.calculusGroup.values());
+    case GroupName.Trigonometry:
+      return Array.from(props.trigonometryGroup.values());
+    case GroupName.PreCalculus:
+      return Array.from(props.preCalculusGroup.values());
+  }
+});
+const pageCount = computed<number>(() => {
+  if (pageSize.value === -1) return 1;
+  return Math.ceil(groupItems.value.length / pageSize.value);
+});
+const startSliceIndex = computed<number>(() => {
+  if (pageSize.value === -1) return 0;
+  return (activePage.value - 1) * pageSize.value;
+});
+const endSliceIndex = computed<number | undefined>(() => {
+  if (pageSize.value === -1) return undefined;
+  return activePage.value * pageSize.value;
+});
+const pageItems = computed<AppItem[]>(() => {
+  return groupItems.value.slice(
+    startSliceIndex.value,
+    endSliceIndex.value as number,
+  );
+});
+
+//
+// Lifecycle
+//
+
+watch(pageSize, (): void => {
+  onChangePage(1);
+});
 
 //
 // Event Handlers
@@ -30,7 +71,7 @@ const pageSize = 6;
 
 function onChangeTab(groupName: GroupName): void {
   activeTab.value = groupName;
-  activePage.value = 1;
+  onChangePage(1);
 }
 
 function onChangePage(page: number): void {
@@ -39,7 +80,7 @@ function onChangePage(page: number): void {
 </script>
 
 <template>
-  <div class="text-base font-semibold leading-7">
+  <div class="text-base font-semibold leading-7 flex justify-between items-end">
     <div role="tablist" class="tabs tabs-bordered">
       <GroupTab
         :label="$t('group.calculus')"
@@ -47,90 +88,48 @@ function onChangePage(page: number): void {
         :is-active="activeTab === GroupName.Calculus"
         @click="() => onChangeTab(GroupName.Calculus)"
       />
-      <div class="tab-content">
-        <div class="mt-16 flex justify-start items-end">
-          <template
-            v-for="(item, idx) in Array.from(calculusGroup.values()).slice(
-              (activePage - 1) * pageSize,
-              activePage * pageSize,
-            )"
-            :key="idx"
-          >
-            <ApplicationCard :item="item" />
-          </template>
-        </div>
-      </div>
       <GroupTab
         :label="$t('group.trigonometry')"
         :group="trigonometryGroup"
         :is-active="activeTab === GroupName.Trigonometry"
         @click="() => onChangeTab(GroupName.Trigonometry)"
       />
-      <div class="tab-content">
-        <div class="mt-16 flex justify-start items-end">
-          <template
-            v-for="(item, idx) in Array.from(trigonometryGroup.values()).slice(
-              (activePage - 1) * pageSize,
-              activePage * pageSize,
-            )"
-            :key="idx"
-          >
-            <ApplicationCard :item="item" />
-          </template>
-        </div>
-      </div>
       <GroupTab
         :label="$t('group.preCalculus')"
         :group="preCalculusGroup"
         :is-active="activeTab === GroupName.PreCalculus"
         @click="() => onChangeTab(GroupName.PreCalculus)"
       />
-      <div class="tab-content">
-        <div class="mt-16 flex justify-start items-end">
-          <template
-            v-for="(item, idx) in Array.from(preCalculusGroup.values()).slice(
-              (activePage - 1) * pageSize,
-              activePage * pageSize,
-            )"
-            :key="idx"
-          >
-            <ApplicationCard :item="item" />
-          </template>
-        </div>
-      </div>
     </div>
+    <label class="form-control w-full max-w-xs">
+      <div class="label">
+        <span class="label-text">
+          {{ $t("landing.featuredApplications.tabs.pageSize") }}
+        </span>
+      </div>
+      <select v-model="pageSize" class="select select-bordered">
+        <option
+          v-for="(option, optionIdx) in pageSizeOptions"
+          :key="optionIdx"
+          :value="option.value"
+          :selected="option.value === pageSize"
+        >
+          {{ option.label }}
+        </option>
+      </select>
+    </label>
+  </div>
+  <div class="mt-16 flex justify-start items-end flex-wrap gap-8">
+    <template v-for="(item, idx) in pageItems" :key="idx">
+      <ApplicationCard :item="item" :group="activeTab" />
+    </template>
   </div>
   <div class="flex justify-between items-center mt-8 w-full">
     <div />
-    <div class="join">
-      <button
-        class="join-item btn"
-        :class="{ 'is-active': activePage === 1 }"
-        @click="() => onChangePage(1)"
-      >
-        1
-      </button>
-      <button
-        class="join-item btn"
-        :class="{ 'is-active': activePage === 2 }"
-        @click="() => onChangePage(2)"
-      >
-        2
-      </button>
-      <button
-        class="join-item btn"
-        :class="{ 'is-active': activePage === 3 }"
-        @click="() => onChangePage(3)"
-      >
-        3
-      </button>
-      <button
-        class="join-item btn"
-        :class="{ 'is-active': activePage === 4 }"
-        @click="() => onChangePage(4)"
-      >
-        4
-      </button>
-    </div>
+    <ApplicationPagination
+      :active-page="activePage"
+      :on-change-page="onChangePage"
+      :page-count="pageCount"
+    />
   </div>
 </template>

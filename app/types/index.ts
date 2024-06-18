@@ -54,3 +54,8 @@ export enum LocaleCode {
   RURussian = "ru_RU",
   BRPortuguese = "pt_BR",
 }
+
+export interface SelectOption {
+  value: number | string;
+  label: string;
+}

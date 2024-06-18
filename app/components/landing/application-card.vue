@@ -1,9 +1,10 @@
 <script setup lang="ts">
 // Local Imports
 import Eye from "~/components/icons/eye.vue";
-import type { AppItem } from "~/types";
+import { type AppItem, GroupName } from "~/types";
 
 interface Props {
+  group: GroupName;
   item: AppItem;
 }
 
@@ -15,7 +16,7 @@ defineProps<Props>();
 </script>
 
 <template>
-  <div class="mr-4 h-full">
+  <div class="mr-4 h-full w-[30%]">
     <div class="card w-96 bg-base-100 shadow-xl">
       <div class="card-body">
         <h2 class="card-title text-neutral-700 no-select cursor-default">
@@ -26,7 +27,7 @@ defineProps<Props>();
         </p>
         <div class="card-actions justify-end">
           <NuxtLink
-            :to="`/scripts/calculus/${item.name}`"
+            :to="`/applications/${group}/${item.name}`"
             class="btn btn-ghost text-neutral-400 no-select"
           >
             {{ $t("getApplication") }}

@@ -1,4 +1,4 @@
-import { CurrencyCode, LocaleCode } from "~/types";
+import { CurrencyCode, LocaleCode, type SelectOption } from "~/types";
 import { useI18n } from "#imports";
 
 export const CURRENCY_SYMBOLS: Record<CurrencyCode, string> = {
@@ -65,3 +65,13 @@ export function getLocalCodes(
 }
 
 export const LOCAL_STORAGE_LOCALE_KEY = "ti-84-locale";
+
+export function getPageSizeOptions(t: (key: string) => string): SelectOption[] {
+  return [
+    { value: 3, label: "3" },
+    { value: 6, label: "6" },
+    { value: 9, label: "9" },
+    { value: 12, label: "12" },
+    { value: -1, label: t("all") },
+  ];
+}

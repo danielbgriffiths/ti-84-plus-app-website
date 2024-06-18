@@ -10,6 +10,9 @@ export default defineI18nConfig(() => ({
           title: "Featured Applications",
           caption:
             "A featured set of applications for the TI-84 Plus CE calculator.",
+          tabs: {
+            pageSize: "Page Size",
+          },
         },
         groupLink: {
           tooltipText: "{size} {label} Applications",
@@ -164,6 +167,19 @@ export default defineI18nConfig(() => ({
       readMore: "Read more",
       getStarted: "Get started",
       learnMore: "Learn more",
+      all: "All",
+      download: "Download",
+      category: "Category",
+      description: "Description",
+      exampleUsages: "Example Usages",
+      testCoverage: "Test Coverage",
+      files: "Files",
+      application: {
+        info: {
+          applicationInformation: "Application Information",
+          documentationCaption: "Documentation for {name} application.",
+        },
+      },
     },
     fr: {
       welcome: "Bienvenue",

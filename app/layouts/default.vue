@@ -2,7 +2,7 @@
 
 <template>
   <Header />
-  <main class="mt-[80px]">
+  <main class="mt-[50px]">
     <slot />
   </main>
   <Footer />
@@ -10,6 +10,6 @@
 
 <style lang="css" scoped>
 main {
-  min-height: calc(100vh - 52px - 80px);
+  min-height: calc(100vh - 52px - 50px);
 }
 </style>

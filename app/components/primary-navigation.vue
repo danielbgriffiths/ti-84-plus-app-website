@@ -1,9 +1,9 @@
 <script setup lang="ts">
 // Local Imports
 import Donate from "~/components/icons/donate.vue";
+import Globe from "~/components/icons/globe.vue";
 import { getLocalCodes, LOCAL_STORAGE_LOCALE_KEY } from "~/constants";
 import type { LocaleCode } from "~/types";
-import Globe from "~/components/icons/globe.vue";
 
 //
 // Setup
@@ -36,27 +36,19 @@ onMounted(() => {
   };
 });
 
-watch(hasBackground, (nextValue: boolean) => {
-  if (!navRef.value) return;
-
-  if (nextValue) {
-    navRef.value.style.backgroundColor = "#ffffffe0";
-    navRef.value.style.height = "50px";
-  } else {
-    navRef.value.style.backgroundColor = "transparent";
-    navRef.value.style.height = "80px";
-  }
-});
-
 //
 // Event Handlers
 //
 
 function onScroll(): void {
+  if (!navRef.value) return;
+
   if (window.scrollY > 120 && !hasBackground.value) {
     hasBackground.value = true;
+    navRef.value.style.backgroundColor = "#ffffffe0";
   } else if (window.scrollY <= 120 && hasBackground.value) {
     hasBackground.value = false;
+    navRef.value.style.backgroundColor = "transparent";
   }
 }
 

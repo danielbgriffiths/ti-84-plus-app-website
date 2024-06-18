@@ -14,7 +14,7 @@
 
 
 .min-height-layout {
-    height: calc(100vh - 80px - 52px);
+    height: calc(100vh - 50px - 52px);
 }
 
 code {
