@@ -15,6 +15,8 @@ export default defineNitroPlugin((nitroApp) => {
     db.run(
       `CREATE TABLE IF NOT EXISTS application_meta (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name VARCHAR NOT NULL UNIQUE,
+      group_name VARCHAR NOT NULL,
       views INTEGER NOT NULL DEFAULT 0,
       downloads INTEGER NOT NULL DEFAULT 0,
       ratings_count INTEGER NOT NULL DEFAULT 0,

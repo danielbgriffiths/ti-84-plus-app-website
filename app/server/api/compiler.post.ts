@@ -5,13 +5,6 @@ import { fileURLToPath } from "url";
 
 export default defineEventHandler(async (event) => {
   try {
-    if (event.req.method !== "POST") {
-      throw createError({
-        statusCode: 405,
-        statusMessage: "HTTP method is not allowed.",
-      });
-    }
-
     const body = await readBody(event);
 
     if (!body.groupName || !body.scriptNames) {

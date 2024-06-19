@@ -78,6 +78,7 @@ export function getLocalCodes(
 }
 
 export const LOCAL_STORAGE_LOCALE_KEY = "ti-84-locale";
+export const LOCAL_STORAGE_HAS_DOWNLOADED_KEY = "ti-84-has-downloaded";
 
 export function getPageSizeOptions(t: (key: string) => string): SelectOption[] {
   return [

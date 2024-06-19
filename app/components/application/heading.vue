@@ -6,18 +6,19 @@ import Calendar from "~/components/icons/calendar.vue";
 import Share from "~/components/icons/share.vue";
 import Rating from "~/components/icons/rating.vue";
 import RatingStars from "~/components/application/rating-stars.vue";
-import type { AppItem } from "~/types";
+import { type AppItem, type ApplicationMeta } from "~/types";
 import { GITHUB_URL } from "~/constants";
 
 interface Props {
   item: AppItem;
+  applicationMeta: ApplicationMeta;
 }
 
 //
 // Setup
 //
 
-defineProps<Props>();
+const props = defineProps<Props>();
 const i18n = useI18n();
 
 //
@@ -25,16 +26,20 @@ const i18n = useI18n();
 //
 
 const viewsText = computed<string>(() => {
-  return i18n.t("views", { count: 1023 });
+  return i18n.t("views", { count: props.applicationMeta?.views ?? 0 });
 });
 const downloadsText = computed<string>(() => {
-  return i18n.t("downloads", { count: 64 });
+  return i18n.t("downloads", { count: props.applicationMeta?.downloads ?? 0 });
 });
 const createdText = computed<string>(() => {
-  return i18n.t("created", { date: "January 9, 2020" });
+  return i18n.t("created", { date: props.applicationMeta?.createdAt ?? "" });
 });
 const ratingsText = computed<string>(() => {
-  return i18n.t("ratings", { count: 23 });
+  return i18n.t("ratings", {
+    count:
+      props.applicationMeta?.ratingSum / props.applicationMeta?.ratingCount ??
+      5,
+  });
 });
 </script>
 
@@ -79,7 +84,7 @@ const ratingsText = computed<string>(() => {
         </div>
       </div>
       <div class="mt-5 flex items-center justify-end lg:ml-4 lg:mt-0">
-        <RatingStars />
+        <RatingStars :application-meta="applicationMeta" />
 
         <button
           type="button"

@@ -11,8 +11,13 @@ import { getPrettyGroupName } from "~/constants";
 
 interface Props {
   item: AppItem;
-  groupName: GroupName | undefined;
 }
+
+//
+// Composables
+//
+
+const route = useRoute();
 
 //
 // Setup
@@ -21,7 +26,10 @@ interface Props {
 highlight.registerLanguage("python", python);
 const props = defineProps<Props>();
 const i18n = useI18n();
-const PRETTY_GROUP_NAME = getPrettyGroupName(i18n.t, props.groupName!);
+const PRETTY_GROUP_NAME = getPrettyGroupName(
+  i18n.t,
+  route.params.group as GroupName,
+);
 
 //
 // State

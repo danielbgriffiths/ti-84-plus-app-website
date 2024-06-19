@@ -1,9 +1,12 @@
 <script lang="ts" setup>
+// Third Party Imports
+import { asyncComputed } from "@vueuse/core";
+
 // Local Imports
 import Heading from "~/components/application/heading.vue";
 import DescriptionList from "~/components/application/description-list.vue";
-import type { AppItem } from "~/types";
-import { GroupName } from "~/types";
+import type { AppItem, ApplicationMeta } from "~/types";
+import { LOCAL_STORAGE_HAS_DOWNLOADED_KEY } from "~/constants";
 import * as DATA from "@/data";
 
 //
@@ -15,19 +18,6 @@ const route = useRoute();
 //
 // State
 //
-
-const groupName = computed<GroupName | undefined>(() => {
-  switch (route.params.group) {
-    case "calculus":
-      return GroupName.Calculus;
-    case "pre-calculus":
-      return GroupName.PreCalculus;
-    case "trigonometry":
-      return GroupName.Trigonometry;
-    default:
-      return;
-  }
-});
 
 const item = computed<AppItem | undefined>(() => {
   switch (route.params.group) {
@@ -44,6 +34,39 @@ const item = computed<AppItem | undefined>(() => {
 
 const isDownloading = ref<boolean>(false);
 
+const applicationMeta = asyncComputed<ApplicationMeta>(async () => {
+  const res = await fetch(
+    `/api/application-meta/${route.params.group}/${route.params.name}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+
+  return await res.json();
+});
+
+//
+// Lifecycle
+//
+
+onMounted(async () => {
+  await fetch(
+    `/api/application-meta/${route.params.group}/${route.params.name}/views`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        views: applicationMeta.value.views + 1,
+      }),
+    },
+  );
+});
+
 //
 // Event Handlers
 //
@@ -58,8 +81,8 @@ async function onDownload(): Promise<void> {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        groupName: "pre_calculus",
-        scriptNames: ["least_common_multiple"],
+        groupName: route.params.group,
+        scriptNames: [route.params.name],
       }),
     });
 
@@ -85,6 +108,28 @@ async function onDownload(): Promise<void> {
       URL.revokeObjectURL(url);
       document.body.removeChild(a);
     }, 0);
+
+    await fetch(
+      `/api/application-meta/${route.params.group}/${route.params.name}/downloads`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          views: applicationMeta.value.downloads + 1,
+        }),
+      },
+    );
+
+    const downloadedApps = localStorage.getItem(
+      LOCAL_STORAGE_HAS_DOWNLOADED_KEY,
+    );
+
+    localStorage.setItem(
+      LOCAL_STORAGE_HAS_DOWNLOADED_KEY,
+      downloadedApps + "," + `${route.params.group}::${route.params.name}`,
+    );
   } catch (error) {
     console.error(error);
   } finally {
@@ -97,7 +142,7 @@ async function onDownload(): Promise<void> {
 
 <template>
   <NuxtLayout>
-    <Heading :item="item" />
-    <DescriptionList :item="item" :group-name="groupName" />
+    <Heading :item="item" :application-meta="applicationMeta" />
+    <DescriptionList :item="item" :application-meta="applicationMeta" />
   </NuxtLayout>
 </template>

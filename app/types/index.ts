@@ -64,3 +64,15 @@ export type QuestionItem = {
   question: string;
   answer: string;
 };
+
+export interface ApplicationMeta {
+  id: number;
+  name: string;
+  group: GroupName;
+  views: number;
+  downloads: number;
+  ratingCount: number;
+  ratingSum: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
