@@ -1,19 +1,24 @@
 <script lang="ts" setup>
-// Third Party Imports
-import { asyncComputed } from "@vueuse/core";
-
 // Local Imports
 import Heading from "~/components/application/heading.vue";
 import DescriptionList from "~/components/application/description-list.vue";
-import type { AppItem, ApplicationMeta } from "~/types";
+import { type AppItem, GroupName } from "~/types";
 import { LOCAL_STORAGE_HAS_DOWNLOADED_KEY } from "~/constants";
 import * as DATA from "@/data";
+
+definePageMeta({
+  title: "Python Application Page",
+});
 
 //
 // Composables
 //
 
 const route = useRoute();
+const applicationMetaApi = useApplicationMetaApi(
+  route.params.group as GroupName,
+  route.params.name as string,
+);
 
 //
 // State
@@ -34,37 +39,15 @@ const item = computed<AppItem | undefined>(() => {
 
 const isDownloading = ref<boolean>(false);
 
-const applicationMeta = asyncComputed<ApplicationMeta>(async () => {
-  const res = await fetch(
-    `/api/application-meta/${route.params.group}/${route.params.name}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    },
-  );
-
-  return await res.json();
-});
-
 //
 // Lifecycle
 //
 
-onMounted(async () => {
-  await fetch(
-    `/api/application-meta/${route.params.group}/${route.params.name}/views`,
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        views: applicationMeta.value.views + 1,
-      }),
-    },
-  );
+onBeforeMount((): void => {
+  applicationMetaApi
+    .getApplicationMeta()
+    .then(applicationMetaApi.updateViews)
+    .catch(console.error);
 });
 
 //
@@ -109,19 +92,6 @@ async function onDownload(): Promise<void> {
       document.body.removeChild(a);
     }, 0);
 
-    await fetch(
-      `/api/application-meta/${route.params.group}/${route.params.name}/downloads`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          views: applicationMeta.value.downloads + 1,
-        }),
-      },
-    );
-
     const downloadedApps = localStorage.getItem(
       LOCAL_STORAGE_HAS_DOWNLOADED_KEY,
     );
@@ -136,13 +106,26 @@ async function onDownload(): Promise<void> {
     setTimeout(() => {
       isDownloading.value = false;
     }, 500);
+
+    await applicationMetaApi.updateDownloads();
   }
+}
+
+async function onUpdateRating(rating: number): Promise<void> {
+  await applicationMetaApi.updateRatings(rating);
 }
 </script>
 
 <template>
   <NuxtLayout>
-    <Heading :item="item" :application-meta="applicationMeta" />
-    <DescriptionList :item="item" :application-meta="applicationMeta" />
+    <Heading
+      :item="item"
+      :application-meta="applicationMetaApi.data.value"
+      @update-rating="onUpdateRating"
+    />
+    <DescriptionList
+      :item="item"
+      :application-meta="applicationMetaApi.data.value"
+    />
   </NuxtLayout>
 </template>

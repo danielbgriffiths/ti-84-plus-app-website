@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
 
     const executableProcess = path.resolve(
       __dirname,
-      "../../proc/target/release/compiler",
+      process.env.COMPILER_EXECUTABLE_PATH!,
     );
 
     const env = { ...process.env };

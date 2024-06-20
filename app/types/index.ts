@@ -68,11 +68,34 @@ export type QuestionItem = {
 export interface ApplicationMeta {
   id: number;
   name: string;
-  group: GroupName;
+  groupName: GroupName;
   views: number;
   downloads: number;
-  ratingCount: number;
-  ratingSum: number;
+  ratingsCount: number;
+  ratingsSum: number;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface ApplicationMetaApi {
+  id: number;
+  name: string;
+  group_name: GroupName;
+  views: number;
+  downloads: number;
+  ratings_count: number;
+  ratings_sum: number;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export type SqlLiteErrorCallback = (error: Error | null) => void;
+
+export interface UseApplicationMetaApiBindings {
+  data: Ref<ApplicationMeta | undefined>;
+
+  getApplicationMeta: () => Promise<void>;
+  updateViews: () => Promise<void>;
+  updateDownloads: () => Promise<void>;
+  updateRatings: (rating: number) => Promise<void>;
 }

@@ -1,51 +1,50 @@
-// Third Party Imports
-import sqlite3 from "sqlite3";
+// Local Imports
+import applicationMetaUpdateDownloads from "~/server/queries/application-meta.update-downloads";
+import applicationMetaGet from "~/server/queries/application-meta.get";
+import { ApplicationMeta, ApplicationMetaApi } from "~/types";
 
-export default defineEventHandler((event) => {
-  return new Promise((resolve, reject) => {
-    readBody(event).then((body) => {
-      if (!body.downloads || !body.name) {
-        return reject({
-          statusCode: 400,
-          statusMessage: "Bad Request: object is not valid.",
-        });
-      }
+export default defineEventHandler(async (event): Promise<ApplicationMeta> => {
+  try {
+    const name = getRouterParam(event, "name");
 
-      const db = new sqlite3.Database(
-        process.env.DATABASE_ADDRESS!,
-        (err): void => {
-          if (!err) return;
-          return reject({
-            statusCode: 500,
-            statusMessage: err.message,
-          });
-        },
-      );
-
-      db.run(
-        `UPDATE application_meta SET downloads = ?, updatedAt = CURRENT_TIMESTAMP WHERE name = ?`,
-        [body.downloads, body.name],
-        (err): void => {
-          if (!err) {
-            return resolve({
-              statusCode: 200,
-              statusMessage: "Success",
-            });
-          }
-          return reject({
-            statusCode: 500,
-            statusMessage: err.message,
-          });
-        },
-      );
-
-      db.close((err): void => {
-        if (!err) return;
-        return reject({
-          statusCode: 500,
-          statusMessage: "Error closing DB connection",
-        });
+    if (!name) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: "Bad Request: object is not valid.",
       });
+    }
+
+    const db = getDb();
+
+    const row = await dbGetAwait<ApplicationMetaApi>(db, applicationMetaGet, [
+      name,
+    ]);
+
+    if (!row) {
+      throw createError({
+        statusCode: 404,
+        statusMessage: "Not Found: object not found.",
+      });
+    }
+
+    await dbRunAwait(db, applicationMetaUpdateDownloads, [
+      row.downloads + 1,
+      name,
+    ]);
+
+    const newRow = await dbGetAwait<ApplicationMetaApi>(
+      db,
+      applicationMetaGet,
+      [name],
+    );
+
+    await dbClose(db);
+
+    return snakeToCamel<ApplicationMetaApi, ApplicationMeta>(newRow);
+  } catch (e) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: (e as Error)?.message,
     });
-  });
+  }
 });

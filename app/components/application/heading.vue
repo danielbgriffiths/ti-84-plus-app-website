@@ -8,10 +8,15 @@ import Rating from "~/components/icons/rating.vue";
 import RatingStars from "~/components/application/rating-stars.vue";
 import { type AppItem, type ApplicationMeta } from "~/types";
 import { GITHUB_URL } from "~/constants";
+import formatDate from "~/utils/format-date";
 
 interface Props {
   item: AppItem;
   applicationMeta: ApplicationMeta;
+}
+
+interface Emits {
+  (event: "update-rating", value: number): void;
 }
 
 //
@@ -19,6 +24,7 @@ interface Props {
 //
 
 const props = defineProps<Props>();
+const emits = defineEmits<Emits>();
 const i18n = useI18n();
 
 //
@@ -26,19 +32,23 @@ const i18n = useI18n();
 //
 
 const viewsText = computed<string>(() => {
-  return i18n.t("views", { count: props.applicationMeta?.views ?? 0 });
+  return i18n.t("views", { count: props.applicationMeta?.views ?? "N/A" });
 });
 const downloadsText = computed<string>(() => {
-  return i18n.t("downloads", { count: props.applicationMeta?.downloads ?? 0 });
+  return i18n.t("downloads", {
+    count: props.applicationMeta?.downloads ?? "N/A",
+  });
 });
 const createdText = computed<string>(() => {
-  return i18n.t("created", { date: props.applicationMeta?.createdAt ?? "" });
+  return i18n.t("created", {
+    date:
+      formatDate(props.applicationMeta?.createdAt as unknown as string) ??
+      "N/A",
+  });
 });
 const ratingsText = computed<string>(() => {
   return i18n.t("ratings", {
-    count:
-      props.applicationMeta?.ratingSum / props.applicationMeta?.ratingCount ??
-      5,
+    count: props.applicationMeta?.ratingsCount ?? "N/A",
   });
 });
 </script>
@@ -84,7 +94,10 @@ const ratingsText = computed<string>(() => {
         </div>
       </div>
       <div class="mt-5 flex items-center justify-end lg:ml-4 lg:mt-0">
-        <RatingStars :application-meta="applicationMeta" />
+        <RatingStars
+          :application-meta="applicationMeta"
+          @update-rating="(value) => emits('update-rating', value)"
+        />
 
         <button
           type="button"

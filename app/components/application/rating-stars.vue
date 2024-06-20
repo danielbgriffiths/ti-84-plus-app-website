@@ -1,9 +1,17 @@
 <script setup lang="ts">
+// Third Party Imports
+import { useStorage } from "@vueuse/core";
+
 // Local Imports
 import type { ApplicationMeta } from "~/types";
+import { LOCAL_STORAGE_HAS_DOWNLOADED_KEY } from "~/constants";
 
 interface Props {
   applicationMeta: ApplicationMeta;
+}
+
+interface Emits {
+  (event: "update-rating", value: number): void;
 }
 
 //
@@ -11,18 +19,28 @@ interface Props {
 //
 
 const props = defineProps<Props>();
+const emits = defineEmits<Emits>();
 
 //
 // Composables
 //
 
 const route = useRoute();
+const storage = useStorage(LOCAL_STORAGE_HAS_DOWNLOADED_KEY, "");
 
 //
 // State
 //
 
-const rating = ref<number>(0);
+const rating = ref<number>(
+  Math.round(
+    props.applicationMeta?.ratingsSum / props.applicationMeta?.ratingsCount ??
+      5,
+  ),
+);
+const hasDownloadedApp = computed<boolean>(() =>
+  storage.value.includes(`${route.params.group}::${route.params.name}`),
+);
 
 //
 // Lifecycle
@@ -30,13 +48,14 @@ const rating = ref<number>(0);
 
 watch(
   [
-    () => props.applicationMeta?.ratingSum,
-    () => props.applicationMeta?.ratingCount,
+    () => props.applicationMeta?.ratingsSum,
+    () => props.applicationMeta?.ratingsCount,
   ],
   () => {
+    if (!props.applicationMeta) return;
+
     rating.value =
-      props.applicationMeta?.ratingSum / props.applicationMeta?.ratingCount ??
-      0;
+      props.applicationMeta?.ratingsSum / props.applicationMeta?.ratingsCount;
   },
 );
 
@@ -45,22 +64,9 @@ watch(
 //
 
 async function onClickRating(value: number): Promise<void> {
-  const downloadedApps = localStorage.getItem("downloadedApps");
-  if (downloadedApps?.includes(`${route.params.group}::${route.params.name}`)) {
+  if (hasDownloadedApp) {
     rating.value = value;
-    await fetch(
-      `/api/application-meta/${route.params.group}/${route.params.name}/ratings`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ratingsCount: props.applicationMeta.ratingCount + 1,
-          ratingsSum: props.applicationMeta.ratingSum + value,
-        }),
-      },
-    );
+    emits("update-rating", value);
     return;
   }
 
@@ -76,6 +82,7 @@ async function onClickRating(value: number): Promise<void> {
       value="1"
       class="mask mask-star"
       :checked="rating === 1"
+      :disabled="!hasDownloadedApp"
       @click="() => onClickRating(1)"
     />
     <input
@@ -84,6 +91,7 @@ async function onClickRating(value: number): Promise<void> {
       value="2"
       class="mask mask-star"
       :checked="rating === 2"
+      :disabled="!hasDownloadedApp"
       @click="() => onClickRating(2)"
     />
     <input
@@ -92,6 +100,7 @@ async function onClickRating(value: number): Promise<void> {
       value="3"
       class="mask mask-star"
       :checked="rating === 3"
+      :disabled="!hasDownloadedApp"
       @click="() => onClickRating(3)"
     />
     <input
@@ -100,6 +109,7 @@ async function onClickRating(value: number): Promise<void> {
       value="4"
       class="mask mask-star"
       :checked="rating === 4"
+      :disabled="!hasDownloadedApp"
       @click="() => onClickRating(4)"
     />
     <input
@@ -108,6 +118,7 @@ async function onClickRating(value: number): Promise<void> {
       value="5"
       class="mask mask-star"
       :checked="rating === 5"
+      :disabled="!hasDownloadedApp"
       @click="() => onClickRating(5)"
     />
   </div>

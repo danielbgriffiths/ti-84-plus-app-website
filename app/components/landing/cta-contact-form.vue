@@ -33,8 +33,17 @@ watch(inputValue, (nextValue: string): void => {
 // Event Handlers
 //
 
-function onSubmitContact(): void {
-  console.log("contact: ", inputValue.value);
+async function onSubmitContact(): Promise<void> {
+  const res = await useFetch("/api/email/create", {
+    method: "POST",
+    body: JSON.stringify({ email: inputValue.value }),
+  });
+
+  if (res.data) {
+    console.log("Email sent successfully");
+  } else {
+    console.error("Failed to send email", res.error);
+  }
 }
 </script>
 

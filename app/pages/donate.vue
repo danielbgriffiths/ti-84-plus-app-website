@@ -4,6 +4,10 @@ import CircleCheck from "~/components/icons/circle-check.vue";
 import { CurrencyCode } from "~/types";
 import { CURRENCY_SYMBOLS, getCurrencyTexts } from "~/constants";
 
+definePageMeta({
+  title: "Donation Page",
+});
+
 //
 // Setup
 //

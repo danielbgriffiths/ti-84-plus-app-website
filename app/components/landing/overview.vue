@@ -118,7 +118,7 @@ def pi(iterations=100000):
           class="mockup-code w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem] md:-ml-4 lg:-ml-0 pb-0"
         >
           <pre class="px-8">
-            <code class="language-html" v-html="codeString" />
+            <code class="language-python" v-html="codeString" />
           </pre>
         </div>
       </div>

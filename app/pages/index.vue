@@ -6,8 +6,11 @@ import Overview from "~/components/landing/overview.vue";
 import Info from "~/components/landing/info.vue";
 import type { AppGroup } from "~/types";
 import CallToActionDonate from "~/components/landing/call-to-action-donate.vue";
-import CompilerBreakdown from "~/components/landing/compiler-breakdown.vue";
 import CallToActionContact from "~/components/landing/call-to-action-contact.vue";
+
+definePageMeta({
+  title: "Home Page",
+});
 
 //
 // State
