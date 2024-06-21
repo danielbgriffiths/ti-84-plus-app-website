@@ -20,6 +20,9 @@ const contactForm = z.object({
 
 const inputValue = ref<string>("");
 const isValid = ref<boolean>(false);
+const toastMessage = ref<string | undefined>(undefined);
+const toastType = ref<string>("");
+const isLoading = ref<boolean>(false);
 
 //
 // Lifecycle
@@ -34,21 +37,32 @@ watch(inputValue, (nextValue: string): void => {
 //
 
 async function onSubmitContact(): Promise<void> {
-  const res = await useFetch("/api/email/create", {
+  isLoading.value = true;
+
+  const { data } = await useFetch("/api/email/create", {
     method: "POST",
     body: JSON.stringify({ email: inputValue.value }),
   });
 
-  if (res.data) {
-    console.log("Email sent successfully");
+  if (data) {
+    toastMessage.value = "Email sent successfully";
+    toastType.value = "alert-success";
   } else {
-    console.error("Failed to send email", res.error);
+    toastMessage.value = "Failed to store email";
+    toastType.value = "alert-error";
   }
+
+  setTimeout(() => {
+    toastMessage.value = undefined;
+    isLoading.value = false;
+  }, 2500);
+
+  inputValue.value = "";
 }
 </script>
 
 <template>
-  <form class="mt-6 flex max-w-md gap-x-4">
+  <form class="mt-6 flex max-w-md gap-x-4" @submit.prevent="onSubmitContact">
     <label class="input input-bordered flex items-center gap-2">
       <Message />
       <input
@@ -58,14 +72,16 @@ async function onSubmitContact(): Promise<void> {
         v-model="inputValue"
       />
     </label>
-    <button
-      type="submit"
-      class="flex-none btn btn-ghost"
-      :disabled="!isValid"
-      @click="onSubmitContact"
-    >
+    <button type="submit" class="flex-none btn btn-ghost" :disabled="!isValid">
+      <span v-if="isLoading" class="loading loading-spinner loading-sm" />
       <Send />
       {{ $t("landing.contact.form.send") }}
     </button>
   </form>
+
+  <div class="toast" v-if="toastMessage">
+    <div :class="`alert ${toastType} shadow-xl`">
+      <span>{{ toastMessage }}</span>
+    </div>
+  </div>
 </template>

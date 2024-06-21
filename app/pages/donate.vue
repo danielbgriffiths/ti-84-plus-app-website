@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 // Local Imports
 import CircleCheck from "~/components/icons/circle-check.vue";
+import PaymentModal from "~/components/donate/payment-modal.vue";
 import { CurrencyCode } from "~/types";
 import { CURRENCY_SYMBOLS, getCurrencyTexts } from "~/constants";
 
@@ -23,8 +24,17 @@ const CURRENCY_TEXTS = getCurrencyTexts(i18n.t);
 const amount = ref<number>(50);
 const currencyCode = ref<CurrencyCode>(CurrencyCode.USD);
 const currencySymbol = computed<string>(
-  () => CURRENCY_SYMBOLS[currencyCode.value],
+  () => CURRENCY_SYMBOLS[currencyCode.value as CurrencyCode],
 );
+const isOpen = ref<boolean>(false);
+
+//
+// Event Handlers
+//
+
+function onOpenPaymentModal(): void {
+  isOpen.value = true;
+}
 </script>
 
 <template>
@@ -128,7 +138,10 @@ const currencySymbol = computed<string>(
                   max="1000"
                   class="range range-xs"
                 />
-                <button class="mt-10 block w-full btn">
+                <button
+                  class="mt-10 block w-full btn"
+                  @click="onOpenPaymentModal"
+                >
                   {{ $t("donate.donate") }}
                 </button>
                 <p
@@ -143,4 +156,5 @@ const currencySymbol = computed<string>(
       </div>
     </div>
   </NuxtLayout>
+  <PaymentModal :is-open="isOpen" @close="isOpen = false" />
 </template>

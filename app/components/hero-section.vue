@@ -63,7 +63,7 @@ defineProps<Props>();
         <h1
           class="text-4xl font-bold tracking-tight text-neutral-700 sm:text-6xl"
         >
-          TI PY
+          TI PYTHON
         </h1>
         <p class="mt-6 text-lg leading-8 text-neutral-600">
           {{ $t("hero.subTitle") }}

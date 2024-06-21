@@ -1,13 +1,11 @@
 <script setup lang="ts">
-// Third Party Imports
-import { useStorage } from "@vueuse/core";
-
 // Local Imports
 import type { ApplicationMeta } from "~/types";
 import { LOCAL_STORAGE_HAS_DOWNLOADED_KEY } from "~/constants";
 
 interface Props {
   applicationMeta: ApplicationMeta;
+  hasDownloaded: boolean;
 }
 
 interface Emits {
@@ -26,7 +24,6 @@ const emits = defineEmits<Emits>();
 //
 
 const route = useRoute();
-const storage = useStorage(LOCAL_STORAGE_HAS_DOWNLOADED_KEY, "");
 
 //
 // State
@@ -37,9 +34,6 @@ const rating = ref<number>(
     props.applicationMeta?.ratingsSum / props.applicationMeta?.ratingsCount ??
       5,
   ),
-);
-const hasDownloadedApp = computed<boolean>(() =>
-  storage.value.includes(`${route.params.group}::${route.params.name}`),
 );
 
 //
@@ -64,7 +58,7 @@ watch(
 //
 
 async function onClickRating(value: number): Promise<void> {
-  if (hasDownloadedApp) {
+  if (props.hasDownloaded) {
     rating.value = value;
     emits("update-rating", value);
     return;
@@ -81,8 +75,9 @@ async function onClickRating(value: number): Promise<void> {
       name="rating-1"
       value="1"
       class="mask mask-star"
+      :class="{ '!bg-yellow-400': hasDownloaded }"
       :checked="rating === 1"
-      :disabled="!hasDownloadedApp"
+      :disabled="!hasDownloaded"
       @click="() => onClickRating(1)"
     />
     <input
@@ -90,8 +85,9 @@ async function onClickRating(value: number): Promise<void> {
       name="rating-1"
       value="2"
       class="mask mask-star"
+      :class="{ '!bg-yellow-400': hasDownloaded }"
       :checked="rating === 2"
-      :disabled="!hasDownloadedApp"
+      :disabled="!hasDownloaded"
       @click="() => onClickRating(2)"
     />
     <input
@@ -99,8 +95,9 @@ async function onClickRating(value: number): Promise<void> {
       name="rating-1"
       value="3"
       class="mask mask-star"
+      :class="{ '!bg-yellow-400': hasDownloaded }"
       :checked="rating === 3"
-      :disabled="!hasDownloadedApp"
+      :disabled="!hasDownloaded"
       @click="() => onClickRating(3)"
     />
     <input
@@ -108,8 +105,9 @@ async function onClickRating(value: number): Promise<void> {
       name="rating-1"
       value="4"
       class="mask mask-star"
+      :class="{ '!bg-yellow-400': hasDownloaded }"
       :checked="rating === 4"
-      :disabled="!hasDownloadedApp"
+      :disabled="!hasDownloaded"
       @click="() => onClickRating(4)"
     />
     <input
@@ -117,8 +115,9 @@ async function onClickRating(value: number): Promise<void> {
       name="rating-1"
       value="5"
       class="mask mask-star"
+      :class="{ '!bg-yellow-400': hasDownloaded }"
       :checked="rating === 5"
-      :disabled="!hasDownloadedApp"
+      :disabled="!hasDownloaded"
       @click="() => onClickRating(5)"
     />
   </div>

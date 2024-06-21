@@ -1,1 +1,5 @@
-export default `INSERT INTO email_list SET email = ?`;
+export default `INSERT INTO email_list (
+    email
+) VALUES (
+    ?
+)`;

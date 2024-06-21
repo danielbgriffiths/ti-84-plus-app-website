@@ -13,6 +13,7 @@ import formatDate from "~/utils/format-date";
 interface Props {
   item: AppItem;
   applicationMeta: ApplicationMeta;
+  hasDownloaded: boolean;
 }
 
 interface Emits {
@@ -96,6 +97,7 @@ const ratingsText = computed<string>(() => {
       <div class="mt-5 flex items-center justify-end lg:ml-4 lg:mt-0">
         <RatingStars
           :application-meta="applicationMeta"
+          :has-downloaded="hasDownloaded"
           @update-rating="(value) => emits('update-rating', value)"
         />
 

@@ -1,10 +1,14 @@
 <script lang="ts" setup>
+// Third Party Imports
+import { useStorage } from "@vueuse/core";
+
 // Local Imports
 import Heading from "~/components/application/heading.vue";
 import DescriptionList from "~/components/application/description-list.vue";
 import { type AppItem, GroupName } from "~/types";
 import { LOCAL_STORAGE_HAS_DOWNLOADED_KEY } from "~/constants";
 import * as DATA from "@/data";
+import CallToActionContact from "~/components/landing/call-to-action-contact.vue";
 
 definePageMeta({
   title: "Python Application Page",
@@ -19,6 +23,7 @@ const applicationMetaApi = useApplicationMetaApi(
   route.params.group as GroupName,
   route.params.name as string,
 );
+const storage = useStorage(LOCAL_STORAGE_HAS_DOWNLOADED_KEY, "");
 
 //
 // State
@@ -38,6 +43,10 @@ const item = computed<AppItem | undefined>(() => {
 });
 
 const isDownloading = ref<boolean>(false);
+
+const hasDownloaded = computed<boolean>(() =>
+  storage.value.includes(`${route.params.group}::${route.params.name}`),
+);
 
 //
 // Lifecycle
@@ -92,14 +101,8 @@ async function onDownload(): Promise<void> {
       document.body.removeChild(a);
     }, 0);
 
-    const downloadedApps = localStorage.getItem(
-      LOCAL_STORAGE_HAS_DOWNLOADED_KEY,
-    );
-
-    localStorage.setItem(
-      LOCAL_STORAGE_HAS_DOWNLOADED_KEY,
-      downloadedApps + "," + `${route.params.group}::${route.params.name}`,
-    );
+    storage.value =
+      storage.value + "," + `${route.params.group}::${route.params.name}`;
   } catch (error) {
     console.error(error);
   } finally {
@@ -121,11 +124,15 @@ async function onUpdateRating(rating: number): Promise<void> {
     <Heading
       :item="item"
       :application-meta="applicationMetaApi.data.value"
+      :has-downloaded="hasDownloaded"
       @update-rating="onUpdateRating"
     />
     <DescriptionList
       :item="item"
       :application-meta="applicationMetaApi.data.value"
+      :has-downloaded="hasDownloaded"
+      @download="onDownload"
     />
+    <CallToActionContact />
   </NuxtLayout>
 </template>

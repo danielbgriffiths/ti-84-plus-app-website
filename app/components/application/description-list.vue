@@ -11,6 +11,11 @@ import { getPrettyGroupName } from "~/constants";
 
 interface Props {
   item: AppItem;
+  hasDownloaded: boolean;
+}
+
+interface Emits {
+  (event: "download"): void;
 }
 
 //
@@ -25,6 +30,7 @@ const route = useRoute();
 
 highlight.registerLanguage("python", python);
 const props = defineProps<Props>();
+const emits = defineEmits<Emits>();
 const i18n = useI18n();
 const PRETTY_GROUP_NAME = getPrettyGroupName(
   i18n.t,
@@ -79,7 +85,10 @@ const readmeFile = asyncComputed<string>(async () => {
         class="flex items-center justify-end py-4 pl-4 pr-5 text-sm leading-6 w-[50%]"
       >
         <div class="ml-4 flex-shrink-0">
-          <button class="btn btn-neutral text-white">
+          <button
+            class="btn btn-neutral text-white"
+            @click="() => emits('download')"
+          >
             <ArrowDownTray class="text-white" />
             {{ $t("createDownload") }}
           </button>

@@ -29,3 +29,6 @@ server/plugins/dev.db
 /server/plugins/dev.db
 ./server/plugins/dev.db
 dev.db
+
+localhost.pem
+localhost-key.pem
