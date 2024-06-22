@@ -34,6 +34,12 @@ const isOpen = ref<boolean>(false);
 
 function onOpenPaymentModal(): void {
   isOpen.value = true;
+  console.log("on open");
+}
+
+function onClose(): void {
+  isOpen.value = false;
+  console.log("on close");
 }
 </script>
 
@@ -156,5 +162,5 @@ function onOpenPaymentModal(): void {
       </div>
     </div>
   </NuxtLayout>
-  <PaymentModal :is-open="isOpen" @close="isOpen = false" />
+  <PaymentModal :is-open="isOpen" @close="onClose" />
 </template>

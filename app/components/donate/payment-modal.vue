@@ -2,6 +2,10 @@
 // Third Party Imports
 import { loadStripe, type Stripe } from "@stripe/stripe-js";
 
+// Local Imports
+import Close from "~/components/icons/close.vue";
+import StripeMessages from "~/components/donate/stripe-messages.vue";
+
 interface Emits {
   (event: "close"): void;
 }
@@ -31,40 +35,74 @@ const messages = ref<string[]>([]);
 // Lifecycle
 //
 
-watch(props.isOpen, async () => {
-  if (!props.isOpen) return;
+watch(
+  () => props.isOpen,
+  async () => {
+    if (!props.isOpen) {
+      paymentDialogRef.value.close();
+      return;
+    }
 
-  paymentDialogRef.value.showModal();
+    paymentDialogRef.value.showModal();
 
-  const { key } = await fetch("/api/create-stripe").then((res) => res.json());
+    const { key } = await fetch("/api/create-stripe").then((res) => res.json());
 
-  stripe = await loadStripe(key);
+    stripe = await loadStripe(key);
 
-  const data = await fetch("/api/create-payment-intent", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      amount: 1000,
-      currency: "usd",
-    }),
-  }).then((res) => res.json());
+    const { clientSecret } = await fetch("/api/create-payment-intent", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        amount: 1000,
+        currency: "usd",
+      }),
+    }).then((res) => res.json());
 
-  if (!data) {
-    messages.value.push("Error fetching client secret.");
-    return;
-  }
+    if (!clientSecret) {
+      messages.value.push("Error fetching client secret.");
+      return;
+    }
 
-  messages.value.push(`Client secret returned.`);
+    messages.value.push(`Client secret returned.`);
 
-  elements = stripe?.elements({ clientSecret: data.clientSecret });
-  const paymentElement = elements.create("payment");
-  paymentElement.mount("#payment-element");
-  const linkAuthenticationElement = elements.create("linkAuthentication");
-  linkAuthenticationElement.mount("#link-authentication-element");
-  isLoading.value = false;
-});
+    elements = stripe?.elements({
+      clientSecret,
+      appearance: {
+        theme: "flat",
+        variables: {
+          fontFamily:
+            'ui-sans-serif, system-ui, -apple-system, "system-ui", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
+          fontSizeBase: "14px",
+          fontSizeSm: "14px",
+          fontSizeXs: "12px",
+          fontSize2Xs: "11px",
+          fontSize3Xs: "14px",
+          fontSizeLg: "16px",
+          fontSizeXl: "20px",
+          colorText: "rgb(115, 115, 115)",
+          colorPrimaryText: "#2e3440",
+          iconColor: "#a3a3a3",
+          tabIconSelectedColor: "#2e3440",
+          focusOutline: "#e3e3e3",
+          colorPrimary: "#d8dee9",
+          accessibleColorOnColorPrimary: "#2e3440",
+        },
+      },
+    });
+    const paymentElement = elements.create("payment", {
+      layout: {
+        type: "tabs",
+        defaultCollapsed: false,
+      },
+    });
+    paymentElement.mount("#payment-element");
+    const linkAuthenticationElement = elements.create("linkAuthentication", {});
+    linkAuthenticationElement.mount("#link-authentication-element");
+    isLoading.value = false;
+  },
+);
 
 //
 // Event Handlers
@@ -80,7 +118,7 @@ async function onSubmitPayment(): Promise<void> {
   const res = await stripe?.confirmPayment({
     elements,
     confirmParams: {
-      return_url: `${window.location.origin}/return`,
+      return_url: `${window.location.origin}/donate-return`,
     },
   });
 
@@ -89,7 +127,6 @@ async function onSubmitPayment(): Promise<void> {
     res?.error.type === "validation_error"
   ) {
     messages.value.push(res?.error.message);
-    paymentDialogRef.value?.close();
   } else {
     messages.value.push("An unexpected error occured.");
   }
@@ -102,16 +139,32 @@ async function onSubmitPayment(): Promise<void> {
 <template>
   <dialog ref="paymentDialogRef" class="modal modal-bottom sm:modal-middle">
     <div class="modal-box">
-      <h3 class="font-bold text-lg">Hello!</h3>
-      <p class="py-4">Press ESC key or click the button below to close</p>
-      <div class="modal-action">
-        <form id="payment-form" @submit.prevent="onSubmitPayment">
-          <div id="link-authentication-element" />
-          <div id="payment-element" />
-          <button class="btn" :disabled="isLoading">Pay now</button>
-          <!--          <sr-messages :messages="messages" />-->
-        </form>
-      </div>
+      <button
+        class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+        @click="() => emits('close')"
+      >
+        <Close />
+      </button>
+      <h3
+        class="text-center font-bold text-lg cursor-default no-select text-neutral-700"
+      >
+        {{ $t("donate.grateful") }}
+      </h3>
+      <p
+        class="text-center pt-2 pb-4 text-sm cursor-default no-select text-neutral-600"
+      >
+        {{ $t("donate.privacy") }}
+      </p>
+      <form id="payment-form" @submit.prevent="onSubmitPayment">
+        <div id="link-authentication-element" />
+        <div id="payment-element" />
+        <div class="modal-action">
+          <button class="btn mt-2 w-full" type="submit" :disabled="isLoading">
+            {{ $t("donate.createDonation") }}
+          </button>
+        </div>
+        <StripeMessages :messages="messages" />
+      </form>
     </div>
   </dialog>
 </template>
