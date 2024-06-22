@@ -16,10 +16,11 @@ defineProps<Props>();
 
 <template>
   <div class="collapse collapse-plus bg-base-100 mb-2">
-    <input type="radio" name="faq_accordion" :value="slug" />
-    <div class="collapse-title text-xl font-medium">
+    <input type="radio" :id="slug" name="faq_accordion" :value="slug" />
+    <label :for="slug" class="collapse-title text-xl font-medium">
+      <span class="sr-only">{{ slug }}</span>
       {{ question.question }}
-    </div>
+    </label>
     <div class="collapse-content">
       {{ question.answer }}
     </div>

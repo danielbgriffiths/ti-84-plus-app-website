@@ -60,7 +60,7 @@ def pi(iterations=100000):
         <div class="lg:pr-8 lg:pt-4">
           <div class="lg:max-w-lg">
             <h2
-              class="text-base font-semibold leading-7 text-primary cursor-default no-select"
+              class="text-base font-semibold leading-7 text-neutral-600 cursor-default no-select"
             >
               {{ $t("landing.overview.title") }}
             </h2>

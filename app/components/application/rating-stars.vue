@@ -30,10 +30,11 @@ const route = useRoute();
 //
 
 const rating = ref<number>(
-  Math.round(
-    props.applicationMeta?.ratingsSum / props.applicationMeta?.ratingsCount ??
-      5,
-  ),
+  props.applicationMeta?.ratingsSum && props.applicationMeta?.ratingsCount
+    ? Math.round(
+        props.applicationMeta?.ratingsSum / props.applicationMeta?.ratingsCount,
+      )
+    : 0,
 );
 
 //

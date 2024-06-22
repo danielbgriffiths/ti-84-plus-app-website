@@ -75,7 +75,7 @@ function onClose(): void {
             </p>
             <div class="mt-10 flex items-center gap-x-4">
               <h4
-                class="flex-none text-sm font-semibold leading-6 text-primary cursor-default no-select"
+                class="flex-none text-sm font-semibold leading-6 text-neutral-600 cursor-default no-select"
               >
                 {{ $t("donate.content.title") }}
               </h4>

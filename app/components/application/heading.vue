@@ -114,7 +114,7 @@ const ratingsText = computed<string>(() => {
           class="inline-flex items-center btn btn-ghost mx-2"
         >
           <NuxtImg
-            src="/assets/github-mark.png"
+            src="/github.png"
             alt="Github Image"
             class="w-[18px] h-[18px]"
             width="18"

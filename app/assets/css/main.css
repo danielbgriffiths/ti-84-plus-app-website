@@ -1,0 +1,25 @@
+.no-select {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+}
+
+
+.min-height-layout {
+    height: calc(100vh - 50px - 52px);
+}
+
+code {
+    font-size: 0.8rem !important;
+}
+
+pre {
+    line-height: 18px;
+}
+
+.mockup-code {
+    background-color: #2d3442 !important;
+}

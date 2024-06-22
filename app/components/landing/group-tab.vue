@@ -37,7 +37,7 @@ const tooltipText = computed<string>(() =>
       {{ label }}
       <div class="badge badge-primary">
         <div class="tooltip" :data-tip="tooltipText">
-          <span class="text-neutral-200">+{{ group.size }}</span>
+          <span class="text-white">+{{ group.size }}</span>
         </div>
       </div>
     </div>

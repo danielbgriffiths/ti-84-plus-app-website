@@ -2,9 +2,6 @@
 // Third Party Imports
 import { loadStripe } from "@stripe/stripe-js";
 
-// Local Imports
-import StripeMessages from "~/components/donate/stripe-messages.vue";
-
 definePageMeta({
   title: "TIPYTHON - Donation Thank You Page",
 });
@@ -19,13 +16,13 @@ let stripe;
 // State
 //
 
-const messages = ref([]);
-const clientSecret = ref("");
+const errorToast = ref<string | undefined>();
+const successToast = ref<string | undefined>();
+const clientSecret = ref<string>("");
 
-const currentRoute = computed(() => {
-  return useRoute().query;
-});
-clientSecret.value = currentRoute.value?.payment_intent_client_secret;
+const currentRoute = computed(() => useRoute().query);
+
+clientSecret.value = currentRoute.value?.payment_intent_client_secret as string;
 
 //
 // Lifecycle
@@ -36,22 +33,44 @@ onMounted(async (): Promise<void> => {
 
   stripe = await loadStripe(key);
 
+  if (!stripe) return;
+
   const { error, paymentIntent } = await stripe.retrievePaymentIntent(
     clientSecret.value,
   );
 
-  if (error) {
-    messages.value.append(error.message);
+  if (error?.message) {
+    errorToast.value = error.message;
   }
 
-  messages.value.push(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
+  if (!paymentIntent) return;
+
+  successToast.value = `Payment ${paymentIntent.status}`;
+
+  setTimeout(() => {
+    errorToast.value = undefined;
+    successToast.value = undefined;
+  }, 5000);
 });
 </script>
 
 <template>
   <NuxtLayout>
-    <a href="/">home</a>
-    <h1>Thank you!</h1>
-    <StripeMessages v-if="clientSecret" :messages="messages" />
+    <div class="flex flex-col items-center justify-center h-full">
+      <h1
+        class="text-3xl font-bold tracking-tight text-neutral-700 sm:text-4xl cursor-default no-select"
+      >
+        {{ $t("donateReturn.thankYou") }}
+      </h1>
+    </div>
+    <LandingCallToActionContact />
   </NuxtLayout>
+  <div class="toast toast-end">
+    <div v-if="errorToast" class="alert alert-info">
+      <span>{{ errorToast }}</span>
+    </div>
+    <div v-if="successToast" class="alert alert-success">
+      <span>{{ successToast }}</span>
+    </div>
+  </div>
 </template>

@@ -14,17 +14,18 @@ definePageMeta({
         <h1
           class="mt-4 text-3xl font-bold tracking-tight text-neutral-700 sm:text-5xl"
         >
-          {{ $t("error.pageNotFound") }}
+          {{ $t("404.pageNotFound") }}
         </h1>
         <p class="mt-6 text-base leading-7 text-neutral-600">
-          {{ $t("error.pageNotFoundDescription") }}
+          {{ $t("404.pageNotFoundDescription") }}
         </p>
         <div class="mt-10 flex items-center justify-center gap-x-6">
           <NuxtLink to="/#applications-section" class="btn">
-            {{ $t("error.backToHome") }}
+            {{ $t("404.backToHome") }}
           </NuxtLink>
         </div>
       </div>
     </div>
+    <LandingCallToActionContact />
   </NuxtLayout>
 </template>

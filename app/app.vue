@@ -1,7 +1,6 @@
 <script setup lang="ts">
 // Third Party Imports
 import "highlight.js/styles/atom-one-dark.min.css";
-import "daisyui/dist/full.css";
 
 // Local Imports
 import { LocaleCode } from "~/types";
@@ -35,8 +34,12 @@ useHead({
     },
     { name: "author", content: "Daniel Griffiths" },
     { name: "viewport", content: "width=device-width, initial-scale=1" },
+    { name: "theme-color", content: "#ffffff" },
   ],
-  link: [{ rel: "icon", type: "image/png", href: "/img.png" }],
+  link: [
+    { rel: "icon", type: "image/png", href: "/img.png" },
+    { rel: "manifest", href: "/manifest.webmanifest" },
+  ],
   script: [
     {
       type: "application/ld+json",
