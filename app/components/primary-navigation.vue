@@ -65,9 +65,16 @@ function onSelectLocale(locale: string): void {
     aria-label="Global"
   >
     <div class="flex lg:flex-1">
-      <NuxtLink to="/" class="-m-1.5 p-1.5">
+      <NuxtLink to="/" class="-m-1.5 p-1.5 flex justify-start items-center">
         <span class="sr-only">TI-84 Python</span>
-        <img class="h-8 w-auto" src="/img.png" alt="Python Logo" />
+        <NuxtImg
+          class="h-8 w-auto mr-2"
+          src="/img.png"
+          alt="TIPython Website uses Python Logo"
+          width="32"
+          height="32"
+        />
+        <span class="font-bold text-neutral-700">TIPython</span>
       </NuxtLink>
     </div>
     <div class="hidden lg:flex lg:gap-x-12">
@@ -104,7 +111,12 @@ function onSelectLocale(locale: string): void {
             v-for="item in Object.keys(LOCALE_TEXTS)"
             :class="{ 'is-active': i18n.locale.value === item }"
           >
-            <a @click="() => onSelectLocale(item)">{{ LOCALE_TEXTS[item] }}</a>
+            <span
+              @click="() => onSelectLocale(item)"
+              :aria-label="`Change locale to ${LOCALE_TEXTS[item]}`"
+            >
+              {{ LOCALE_TEXTS[item] }}
+            </span>
           </li>
         </ul>
       </div>
@@ -118,7 +130,7 @@ function onSelectLocale(locale: string): void {
   </nav>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 nav {
   transition-duration: 0.15s;
   transition-property: height, background-color;

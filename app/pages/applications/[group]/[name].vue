@@ -11,7 +11,7 @@ import * as DATA from "@/data";
 import CallToActionContact from "~/components/landing/call-to-action-contact.vue";
 
 definePageMeta({
-  title: "Python Application Page",
+  title: "TIPYTHON - Python Application Page",
 });
 
 //

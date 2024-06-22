@@ -113,10 +113,12 @@ const ratingsText = computed<string>(() => {
           :href="GITHUB_URL"
           class="inline-flex items-center btn btn-ghost mx-2"
         >
-          <img
+          <NuxtImg
             src="/assets/github-mark.png"
             alt="Github Image"
             class="w-[18px] h-[18px]"
+            width="18"
+            height="18"
           />
           {{ $t("github") }}
         </NuxtLink>

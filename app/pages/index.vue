@@ -9,7 +9,7 @@ import CallToActionDonate from "~/components/landing/call-to-action-donate.vue";
 import CallToActionContact from "~/components/landing/call-to-action-contact.vue";
 
 definePageMeta({
-  title: "Home Page",
+  title: "TIPYTHON - TI-84 Scientific Calculator Python Applications",
 });
 
 //
@@ -38,24 +38,3 @@ const preCalculusGroup = computed<AppGroup>(() => DATA.preCalculusGroup);
     <CallToActionContact />
   </NuxtLayout>
 </template>
-
-<style lang="scss" scoped>
-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  > div {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex-wrap: wrap;
-
-    > div {
-      margin: 1rem;
-    }
-  }
-}
-</style>

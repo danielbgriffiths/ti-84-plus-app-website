@@ -6,7 +6,7 @@ import { CurrencyCode } from "~/types";
 import { CURRENCY_SYMBOLS, getCurrencyTexts } from "~/constants";
 
 definePageMeta({
-  title: "Donation Page",
+  title: "TIPYTHON - Donation Page",
 });
 
 //
@@ -48,11 +48,11 @@ function onClose(): void {
     <div class="bg-white py-24 sm:py-32 min-height-layout">
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl sm:text-center">
-          <h2
+          <h1
             class="text-3xl font-bold tracking-tight text-neutral-700 sm:text-4xl cursor-default no-select"
           >
             {{ $t("donate.title") }}
-          </h2>
+          </h1>
           <p
             class="mt-6 text-lg leading-8 text-neutral-600 cursor-default no-select"
           >

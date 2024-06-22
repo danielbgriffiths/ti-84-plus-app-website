@@ -115,9 +115,9 @@ export default defineI18nConfig(() => ({
       },
       hero: {
         blurb: "Understand how your TI-84 can serve you better",
-        title: "TI PY",
+        title: "Improving the Scientific Calculator Experience",
         subTitle:
-          "Collections of tested and verified Python applications for your TI-84.",
+          "The largest and most developer-friendly collection of continuously growing, open-source, and tested and verified Python applications for your TI-84.",
       },
       navigation: {
         applications: "Applications",
@@ -147,6 +147,12 @@ export default defineI18nConfig(() => ({
         createDonation: "Create Donation",
         grateful: "We are grateful for your support.",
         privacy: "No personal information is collected during donations.",
+      },
+      error: {
+        pageNotFound: "Page Not Found",
+        pageNotFoundDescription:
+          "Sorry, we couldn’t find the page you’re looking for.",
+        goBackHome: "Go back home",
       },
       currencyTexts: {
         [CurrencyCode.USD]: "US Dollar",

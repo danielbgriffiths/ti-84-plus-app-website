@@ -43,7 +43,7 @@ defineProps<Props>();
         "
       ></div>
     </div>
-    <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+    <div class="mx-auto max-w-2xl py-16 sm:py-24 lg:py-24">
       <div class="hidden sm:mb-8 sm:flex sm:justify-center">
         <div
           class="relative rounded-full px-3 py-1 text-sm leading-6 text-neutral-500 ring-1 ring-neutral-700/10 hover:ring-neutral-700/20"
@@ -63,7 +63,7 @@ defineProps<Props>();
         <h1
           class="text-4xl font-bold tracking-tight text-neutral-700 sm:text-6xl"
         >
-          TI PYTHON
+          {{ $t("hero.title") }}
         </h1>
         <p class="mt-6 text-lg leading-8 text-neutral-600">
           {{ $t("hero.subTitle") }}

@@ -5,6 +5,10 @@ import { loadStripe } from "@stripe/stripe-js";
 // Local Imports
 import StripeMessages from "~/components/donate/stripe-messages.vue";
 
+definePageMeta({
+  title: "TIPYTHON - Donation Thank You Page",
+});
+
 //
 // Setup
 //
