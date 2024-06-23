@@ -16,7 +16,6 @@
     "@stripe/stripe-js": "^4.0.0",
     "@vite-pwa/nuxt": "^0.8.1",
     "@vueuse/core": "^10.10.0",
-    "highlight.js": "^11.9.0",
     "nuxt": "^3.11.2",
     "sqlite3": "^5.1.7",
     "stripe": "^15.12.0",

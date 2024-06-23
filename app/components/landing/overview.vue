@@ -1,54 +1,8 @@
 <script setup lang="ts">
-// Third Party Imports
-import highlight from "highlight.js";
-import python from "highlight.js/lib/languages/python";
-
 // Local Imports
 import LateralSliders from "~/components/icons/lateral-sliders.vue";
 import Rocket from "~/components/icons/rocket.vue";
 import Globe from "~/components/icons/globe.vue";
-
-//
-// Setup
-//
-
-highlight.registerLanguage("python", python);
-
-//
-// State
-//
-
-const codeString = computed(
-  () =>
-    highlight.highlight(
-      `
-# Babylonian Method
-def sqrt(n, tolerance=1e-10):
-    if n < 0:
-        raise ValueError("Cannot compute the square root of a negative number")
-    if n == 0:
-        return 0
-    x = n / 2
-    while True:
-        next_x = 0.5 * (x + n / x)
-        if abs(x - next_x) < tolerance:
-            return next_x
-        x = next_x
-
-# Nilakantha Series
-def pi(iterations=100000):
-    res = 3.0
-    sign = 1
-    for i in range(2, 2 + 2 * iterations, 2):
-        res += sign * 4 / (i * (i + 1) * (i + 2))
-        sign *= -1
-    return res
-`,
-      {
-        language: "python",
-      },
-    ).value,
-);
 </script>
 
 <template>
@@ -117,9 +71,35 @@ def pi(iterations=100000):
         <div
           class="mockup-code w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem] md:-ml-4 lg:-ml-0 pb-0"
         >
-          <pre class="px-8">
-            <code ref="codeRef" class="language-python" v-html="codeString" />
-          </pre>
+          <code class="language-python">
+            <pre data-prefix="1"># Babylonian Method</pre>
+            <pre data-prefix="2">def sqrt(n, tolerance=1e-10):</pre>
+            <pre data-prefix="3">    if n < 0:</pre>
+            <pre data-prefix="4">
+        raise ValueError("Cannot compute the square root of a negative number")</pre
+            >
+            <pre data-prefix="5">    if n == 0:</pre>
+            <pre data-prefix="6">        return 0</pre>
+            <pre data-prefix="7">    x = n / 2</pre>
+            <pre data-prefix="8">    while True:</pre>
+            <pre data-prefix="9">        next_x = 0.5 * (x + n / x)</pre>
+            <pre data-prefix="10">        if abs(x - next_x) < tolerance:</pre>
+            <pre data-prefix="11">            return next_x</pre>
+            <pre data-prefix="12">        x = next_x</pre>
+            <pre data-prefix="13"></pre>
+            <pre data-prefix="14"># Nilakantha Series</pre>
+            <pre data-prefix="15">def pi(iterations=100000):</pre>
+            <pre data-prefix="16">    res = 3.0</pre>
+            <pre data-prefix="17">    sign = 1</pre>
+            <pre data-prefix="18">
+    for i in range(2, 2 + 2 * iterations, 2):</pre
+            >
+            <pre data-prefix="19">
+        res += sign * 4 / (i * (i + 1) * (i + 2))</pre
+            >
+            <pre data-prefix="20">        sign *= -1</pre>
+            <pre data-prefix="21">    return res</pre>
+          </code>
         </div>
       </div>
     </div>

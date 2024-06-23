@@ -1,7 +1,4 @@
 <script setup lang="ts">
-// Third Party Imports
-import "highlight.js/styles/atom-one-dark.min.css";
-
 // Local Imports
 import { LocaleCode } from "~/types";
 import { getLocalCodes, LOCAL_STORAGE_LOCALE_KEY } from "~/constants";

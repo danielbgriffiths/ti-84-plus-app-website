@@ -1,8 +1,6 @@
 <script setup lang="ts">
 // Third Party Imports
 import { asyncComputed } from "@vueuse/core";
-import highlight from "highlight.js";
-import python from "highlight.js/lib/languages/python";
 
 // Local Imports
 import ArrowDownTray from "~/components/icons/arrow-down-tray.vue";
@@ -28,7 +26,6 @@ const route = useRoute();
 // Setup
 //
 
-highlight.registerLanguage("python", python);
 const props = defineProps<Props>();
 const emits = defineEmits<Emits>();
 const i18n = useI18n();
@@ -50,11 +47,7 @@ const testFile = asyncComputed<string>(async () => {
 
   const data: Response = await fetch(props.item.uri + "/test.py");
   const blob = await data.blob();
-  const text = await blob.text();
-
-  return highlight.highlight(text, {
-    language: "python",
-  }).value;
+  return await blob.text();
 });
 
 const readmeFile = asyncComputed<string>(async () => {
@@ -153,9 +146,7 @@ const readmeFile = asyncComputed<string>(async () => {
           >
             <div class="mockup-code shadow-xl pb-0">
               <pre class="px-8">
-                <span>
-                  <code class="language-html no-select cursor-default" v-html="testFile" />
-                </span>
+                <code class="language-python no-select cursor-default" v-html="testFile" />
               </pre>
             </div>
           </dd>

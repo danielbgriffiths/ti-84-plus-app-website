@@ -220,6 +220,11 @@ export default defineI18nConfig(() => ({
           documentationCaption: "Documentation for {name} application.",
         },
       },
+      compiler: {
+        title: "Rust Python Application Compiler",
+        caption:
+          "Compiler improves developer experience of Python applications by enabling shared helpers and functions in a classical project directory structure.",
+      },
     },
   },
 }));

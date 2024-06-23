@@ -7,6 +7,7 @@ import Info from "~/components/landing/info.vue";
 import type { AppGroup } from "~/types";
 import CallToActionDonate from "~/components/landing/call-to-action-donate.vue";
 import CallToActionContact from "~/components/landing/call-to-action-contact.vue";
+import CompilerBreakdown from "~/components/landing/compiler-breakdown.vue";
 
 definePageMeta({
   title: "TIPYTHON - TI-84 Scientific Calculator Python Applications",
@@ -34,6 +35,8 @@ const preCalculusGroup = computed<AppGroup>(() => DATA.preCalculusGroup);
     <CallToActionDonate />
 
     <Info :groups="[calculusGroup, trigonometryGroup, preCalculusGroup]" />
+
+    <CompilerBreakdown />
 
     <CallToActionContact />
   </NuxtLayout>

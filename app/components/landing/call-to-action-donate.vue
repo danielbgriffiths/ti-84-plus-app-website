@@ -1,46 +1,6 @@
 <script lang="ts" setup>
-// Third Party Imports
-import highlight from "highlight.js";
-import rust from "highlight.js/lib/languages/rust";
-
 // Local Imports
 import LongRightArrow from "~/components/icons/long-right-arrow.vue";
-
-//
-// Setup
-//
-
-highlight.registerLanguage("rust", rust);
-
-//
-// State
-//
-
-const codeString = computed(
-  () =>
-    highlight.highlight(
-      `
-fn main() {
-    dotenv().ok();
-
-    let args = gather_args();
-    let mut files = Vec::new();
-
-    for script_name in args[2].split(',').map(|s| s.trim()) {
-         let paths = describe_paths(&args[1], &script_name.to_string());
-         let bundled_output_lines: Vec<String> = build_bundle(&paths);
-
-         files.push(FileObject {
-             script_name: script_name.to_string(),
-             contents: bundled_output_lines,
-         })
-    }
-`,
-      {
-        language: "rust",
-      },
-    ).value,
-);
 </script>
 
 <template>
@@ -103,9 +63,33 @@ fn main() {
           <div
             class="mockup-code absolute left-0 top-0 w-[40rem] max-w-none rounded-md shadow-xl bg-white/5 ring-1 ring-neutral/10"
           >
-            <pre class="px-8">
-              <code class="language-html" v-html="codeString" />
-            </pre>
+            <code class="language-html">
+              <pre data-prefix="1">fn main() {</pre>
+              <pre data-prefix="1">    dotenv().ok();</pre>
+              <pre data-prefix="2"></pre>
+              <pre data-prefix="3">    let args = gather_args();</pre>
+              <pre data-prefix="4">    let mut files = Vec::new();</pre>
+              <pre data-prefix="5"></pre>
+              <pre data-prefix="6">
+    for script_name in args[2].split(',').map(|s| s.trim()) {</pre
+              >
+              <pre data-prefix="7">
+         let paths = describe_paths(&args[1], &script_name.to_string());</pre
+              >
+              <pre data-prefix="8">
+         let bundled_output_lines = build_bundle(&paths);</pre
+              >
+              <pre data-prefix="9"></pre>
+              <pre data-prefix="10">         files.push(FileObject {</pre>
+              <pre data-prefix="11">
+             script_name: script_name.to_string(),</pre
+              >
+              <pre data-prefix="12">
+             contents: bundled_output_lines,</pre
+              >
+              <pre data-prefix="13">         })</pre>
+              <pre data-prefix="14">    }</pre>
+            </code>
           </div>
         </div>
       </div>
