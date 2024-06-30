@@ -31,11 +31,11 @@ const storage = useStorage(LOCAL_STORAGE_HAS_DOWNLOADED_KEY, "");
 
 const item = computed<AppItem | undefined>(() => {
   switch (route.params.group) {
-    case "calculus":
+    case GroupName.Calculus:
       return DATA.calculusGroup.get(route.params.name);
-    case "pre-calculus":
+    case GroupName.PreCalculus:
       return DATA.preCalculusGroup.get(route.params.name);
-    case "trigonometry":
+    case GroupName.Trigonometry:
       return DATA.trigGroup.get(route.params.name);
     default:
       return;

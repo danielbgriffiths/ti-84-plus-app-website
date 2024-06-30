@@ -8,6 +8,7 @@ export default function snakeToCamel<S extends object, C extends object>(
 
     const value = (obj as any)[key];
     if (value !== null && typeof value === "object") {
+      console.log("value:", value);
       (acc as any)[camelKey] = snakeToCamel(value as S);
     } else {
       (acc as any)[camelKey] = value;

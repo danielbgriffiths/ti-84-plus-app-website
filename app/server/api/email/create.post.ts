@@ -1,5 +1,5 @@
-// Local Imports
-import emailListInsert from "~/server/queries/email-list.insert";
+// Third Party Imports
+import { createClient } from "@vercel/postgres";
 
 interface Body {
   email: string;
@@ -8,9 +8,10 @@ interface Body {
 export default defineEventHandler(async (event): Promise<string> => {
   try {
     const body = await readBody<Body>(event);
-    const db = getDb();
-    await dbRunAwait(db, emailListInsert, [body.email]);
-    await dbClose(db);
+    const client = createClient();
+    await client.connect();
+    await emailListInsert(client, [body.email]);
+    await client.end();
     return "Success";
   } catch (e: unknown) {
     throw createError({

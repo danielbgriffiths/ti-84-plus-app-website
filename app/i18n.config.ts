@@ -3,6 +3,7 @@ import { CurrencyCode, GroupName, LocaleCode, QuestionSlug } from "~/types";
 export default defineI18nConfig(() => ({
   legacy: false,
   locale: LocaleCode.USEnglish,
+  fallbackLocale: LocaleCode.USEnglish,
   messages: {
     [LocaleCode.USEnglish]: {
       landing: {
@@ -222,6 +223,8 @@ export default defineI18nConfig(() => ({
         caption:
           "Compiler (using the term very loosely) improves developer experience of Python applications by enabling shared helpers and functions in a classical project directory structure.",
       },
+      urlCopiedText: "URL Copied",
+      urlCopiedTextFailed: "Failed to copy URL",
     },
   },
 }));

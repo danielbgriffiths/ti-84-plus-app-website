@@ -1,6 +1,7 @@
+// Third Party Imports
+import { createClient } from "@vercel/postgres";
+
 // Local Imports
-import applicationMetaUpdateDownloads from "~/server/queries/application-meta.update-downloads";
-import applicationMetaGet from "~/server/queries/application-meta.get";
 import { ApplicationMeta, ApplicationMetaApi } from "~/types";
 
 export default defineEventHandler(async (event): Promise<ApplicationMeta> => {
@@ -14,33 +15,31 @@ export default defineEventHandler(async (event): Promise<ApplicationMeta> => {
       });
     }
 
-    const db = getDb();
+    const client = createClient();
+    await client.connect();
 
-    const row = await dbGetAwait<ApplicationMetaApi>(db, applicationMetaGet, [
-      name,
-    ]);
+    const row = await applicationMetaGet(client, [name]);
 
     if (!row) {
+      await client.end();
+
       throw createError({
         statusCode: 404,
         statusMessage: "Not Found: object not found.",
       });
     }
 
-    await dbRunAwait(db, applicationMetaUpdateDownloads, [
-      row.downloads + 1,
-      name,
-    ]);
+    await applicationMetaUpdateDownloads(client, [row.downloads + 1, name]);
 
-    const newRow = await dbGetAwait<ApplicationMetaApi>(
-      db,
-      applicationMetaGet,
-      [name],
-    );
+    const newRow = await applicationMetaGet(client, [name]);
 
-    await dbClose(db);
+    await client.end();
 
-    return snakeToCamel<ApplicationMetaApi, ApplicationMeta>(newRow);
+    return snakeToCamel<ApplicationMetaApi, ApplicationMeta>({
+      ...newRow,
+      created_at: newRow.created_at.toISOString() as unknown as Date,
+      updated_at: newRow.updated_at.toISOString() as unknown as Date,
+    });
   } catch (e) {
     throw createError({
       statusCode: 500,

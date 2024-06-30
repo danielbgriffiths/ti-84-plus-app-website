@@ -1,5 +1,5 @@
-// Local Imports
-import donationListInsert from "~/server/queries/donation-list.insert";
+// Third Party Imports
+import { createClient } from "@vercel/postgres";
 
 interface Body {
   amount: string;
@@ -8,9 +8,10 @@ interface Body {
 export default defineEventHandler(async (event): Promise<string> => {
   try {
     const body = await readBody<Body>(event);
-    const db = getDb();
-    await dbRunAwait(db, donationListInsert, [body.amount]);
-    await dbClose(db);
+    const client = createClient();
+    await client.connect();
+    await donationListInsert(client, [Number(body.amount)]);
+    await client.end();
     return "Success";
   } catch (e: unknown) {
     throw createError({

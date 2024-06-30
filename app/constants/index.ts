@@ -71,12 +71,9 @@ export function getLocalCodes(
   return {
     [LocaleCode.USEnglish]: t(`localeTexts.${LocaleCode.USEnglish}`),
     [LocaleCode.ESSpanish]: t(`localeTexts.${LocaleCode.ESSpanish}`),
-    [LocaleCode.FRFrench]: t(`localeTexts.${LocaleCode.FRFrench}`),
     [LocaleCode.DEGerman]: t(`localeTexts.${LocaleCode.DEGerman}`),
     [LocaleCode.CNChinese]: t(`localeTexts.${LocaleCode.CNChinese}`),
-    [LocaleCode.JPJapanese]: t(`localeTexts.${LocaleCode.JPJapanese}`),
     [LocaleCode.RURussian]: t(`localeTexts.${LocaleCode.RURussian}`),
-    [LocaleCode.BRPortuguese]: t(`localeTexts.${LocaleCode.BRPortuguese}`),
   };
 }
 

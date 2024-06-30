@@ -32,6 +32,8 @@ const i18n = useI18n();
 // State
 //
 
+const urlCopiedText = ref<string | undefined>(undefined);
+const urlCopiedTextFailed = ref<string | undefined>(undefined);
 const viewsText = computed<string>(() => {
   return i18n.t("views", { count: props.applicationMeta?.views ?? "N/A" });
 });
@@ -52,6 +54,27 @@ const ratingsText = computed<string>(() => {
     count: props.applicationMeta?.ratingsCount ?? "N/A",
   });
 });
+
+//
+// Event Handlers
+//
+
+function onShare(): void {
+  navigator.clipboard
+    .writeText(window.location.href)
+    .then(() => {
+      urlCopiedText.value = i18n.t("urlCopiedText");
+    })
+    .catch((error) => {
+      urlCopiedTextFailed.value = i18n.t("urlCopiedTextFailed");
+      console.error("Error copying text: ", error);
+    });
+
+  setTimeout(() => {
+    urlCopiedText.value = undefined;
+    urlCopiedTextFailed.value = undefined;
+  }, 4000);
+}
 </script>
 
 <template>
@@ -63,7 +86,7 @@ const ratingsText = computed<string>(() => {
         <h1
           class="text-2xl font-bold leading-7 text-neutral-700 sm:truncate sm:text-3xl sm:tracking-tight no-select cursor-default"
         >
-          {{ item.title }}
+          {{ item?.title ?? "..." }}
         </h1>
         <div
           class="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6"
@@ -105,6 +128,7 @@ const ratingsText = computed<string>(() => {
           type="button"
           aria-label="Share Application"
           class="inline-flex items-center btn btn-ghost mx-2"
+          @click="onShare"
         >
           <Share />
           {{ $t("share") }}
@@ -114,6 +138,7 @@ const ratingsText = computed<string>(() => {
           :href="GITHUB_URL"
           aria-label="GitHub Link"
           class="inline-flex items-center btn btn-ghost mx-2"
+          target="_blank"
         >
           <NuxtImg
             src="/github.png"
@@ -127,4 +152,12 @@ const ratingsText = computed<string>(() => {
       </div>
     </div>
   </header>
+  <div class="toast">
+    <div v-if="urlCopiedText" class="alert alert-success">
+      <span>{{ urlCopiedText }}</span>
+    </div>
+    <div v-if="urlCopiedTextFailed" class="alert alert-warning">
+      <span>{{ urlCopiedTextFailed }}</span>
+    </div>
+  </div>
 </template>

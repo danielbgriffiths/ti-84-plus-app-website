@@ -39,7 +39,7 @@ const PRETTY_GROUP_NAME = getPrettyGroupName(
 //
 
 const documentationText = computed<string>(() =>
-  i18n.t("application.info.documentationCaption", { name: props.item.title }),
+  i18n.t("application.info.documentationCaption", { name: props.item?.title }),
 );
 
 const testFile = asyncComputed<string>(async () => {
