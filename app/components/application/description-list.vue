@@ -80,6 +80,7 @@ const readmeFile = asyncComputed<string>(async () => {
         <div class="ml-4 flex-shrink-0">
           <button
             class="btn btn-neutral text-white"
+            aria-label="Download Application"
             @click="() => emits('download')"
           >
             <ArrowDownTray class="text-white" />

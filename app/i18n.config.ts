@@ -181,12 +181,9 @@ export default defineI18nConfig(() => ({
       localeTexts: {
         [LocaleCode.USEnglish]: "English (United States)",
         [LocaleCode.ESSpanish]: "Spanish (Spain)",
-        [LocaleCode.FRFrench]: "French (France)",
         [LocaleCode.DEGerman]: "German (Germany)",
         [LocaleCode.CNChinese]: "Chinese (Simplified, China)",
-        [LocaleCode.JPJapanese]: "Japanese (Japan)",
         [LocaleCode.RURussian]: "Russian (Russia)",
-        [LocaleCode.BRPortuguese]: "Portuguese (Brazil)",
       },
       seeMore: "See More",
       getApplication: "Get Application",
@@ -223,7 +220,7 @@ export default defineI18nConfig(() => ({
       compiler: {
         title: "Rust Python Application Compiler",
         caption:
-          "Compiler improves developer experience of Python applications by enabling shared helpers and functions in a classical project directory structure.",
+          "Compiler (using the term very loosely) improves developer experience of Python applications by enabling shared helpers and functions in a classical project directory structure.",
       },
     },
   },

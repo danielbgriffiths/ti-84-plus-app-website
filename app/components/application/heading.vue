@@ -60,11 +60,11 @@ const ratingsText = computed<string>(() => {
   >
     <div class="lg:flex lg:items-center lg:justify-between items-end">
       <div class="min-w-0 flex-1">
-        <h2
+        <h1
           class="text-2xl font-bold leading-7 text-neutral-700 sm:truncate sm:text-3xl sm:tracking-tight no-select cursor-default"
         >
           {{ item.title }}
-        </h2>
+        </h1>
         <div
           class="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6"
         >
@@ -103,6 +103,7 @@ const ratingsText = computed<string>(() => {
 
         <button
           type="button"
+          aria-label="Share Application"
           class="inline-flex items-center btn btn-ghost mx-2"
         >
           <Share />
@@ -111,6 +112,7 @@ const ratingsText = computed<string>(() => {
 
         <NuxtLink
           :href="GITHUB_URL"
+          aria-label="GitHub Link"
           class="inline-flex items-center btn btn-ghost mx-2"
         >
           <NuxtImg

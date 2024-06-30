@@ -47,12 +47,9 @@ export enum CurrencyCode {
 export enum LocaleCode {
   USEnglish = "en_US",
   ESSpanish = "es_ES",
-  FRFrench = "fr_FR",
   DEGerman = "de_DE",
   CNChinese = "zh_CN",
-  JPJapanese = "ja_JP",
   RURussian = "ru_RU",
-  BRPortuguese = "pt_BR",
 }
 
 export interface SelectOption {

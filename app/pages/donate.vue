@@ -114,16 +114,18 @@ function onClose(): void {
                   {{ $t("donate.chooseYourDonation") }}
                 </p>
                 <p class="mt-6 mb-2 flex items-center justify-between gap-x-2">
-                  <span
+                  <label
                     class="text-5xl font-bold tracking-tight text-neutral-700 cursor-pointer min-w-[144px]"
+                    for="currency-selector"
                   >
                     {{ currencySymbol }}{{ amount }}
-                  </span>
+                  </label>
                   <span
                     class="text-sm font-semibold leading-6 tracking-wide text-neutral-400 cursor-default no-select"
                   >
                     <select
                       v-model="currencyCode"
+                      id="currency-selector"
                       class="select select-ghost max-w-xs"
                     >
                       <option
@@ -137,15 +139,21 @@ function onClose(): void {
                     </select>
                   </span>
                 </p>
-                <input
-                  v-model="amount"
-                  type="range"
-                  min="1"
-                  max="1000"
-                  class="range range-xs"
-                />
+                <label
+                  class="w-full flex flex-col justify-center items-center text-neutral-400 text-sm"
+                >
+                  <input
+                    v-model="amount"
+                    type="range"
+                    min="1"
+                    max="1000"
+                    class="range range-xs"
+                  />
+                  Donation Amount
+                </label>
                 <button
                   class="mt-10 block w-full btn"
+                  aria-label="Donate Button"
                   @click="onOpenPaymentModal"
                 >
                   {{ $t("donate.donate") }}
