@@ -1,10 +1,12 @@
 <script setup lang="ts">
 // Third Party Imports
 import { z } from "zod";
+import { useElementSize } from "@vueuse/core";
 
 // Local Imports
 import Send from "~/components/icons/send.vue";
 import Message from "~/components/icons/message.vue";
+import { BREAKPOINTS } from "~/constants";
 
 //
 // Setup
@@ -23,10 +25,17 @@ const isValid = ref<boolean>(false);
 const toastMessage = ref<string | undefined>(undefined);
 const toastType = ref<string>("");
 const isLoading = ref<boolean>(false);
+const isDesktop = ref<boolean>(true);
 
 //
 // Lifecycle
 //
+
+onMounted((): void => {
+  watch(useElementSize(document.body).width, (size: number): void => {
+    isDesktop.value = size >= BREAKPOINTS.DESKTOP;
+  });
+});
 
 watch(inputValue, (nextValue: string): void => {
   isValid.value = contactForm.safeParse({ email: nextValue }).success;
@@ -75,7 +84,7 @@ async function onSubmitContact(): Promise<void> {
     <button type="submit" class="flex-none btn btn-ghost" :disabled="!isValid">
       <span v-if="isLoading" class="loading loading-spinner loading-sm" />
       <Send />
-      {{ $t("landing.contact.form.send") }}
+      {{ isDesktop ? $t("landing.contact.form.send") : "" }}
     </button>
   </form>
 

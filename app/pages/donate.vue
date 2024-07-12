@@ -126,7 +126,7 @@ function onClose(): void {
                     <select
                       v-model="currencyCode"
                       id="currency-selector"
-                      class="select select-ghost max-w-xs"
+                      class="select select-ghost lg:max-w-xs max-w-[10rem]"
                     >
                       <option
                         v-for="item in Object.keys(CURRENCY_SYMBOLS)"
