@@ -1,11 +1,11 @@
 <script setup lang="ts">
 // Third Party Imports
-import { asyncComputed } from "@vueuse/core";
+import { asyncComputed, useElementSize } from "@vueuse/core";
 
 // Local Imports
 import ArrowDownTray from "~/components/icons/arrow-down-tray.vue";
 import { type AppItem, GroupName } from "~/types";
-import { getPrettyGroupName } from "~/constants";
+import { BREAKPOINTS, getPrettyGroupName } from "~/constants";
 
 interface Props {
   item: AppItem;
@@ -57,6 +57,18 @@ const readmeFile = asyncComputed<string>(async () => {
   const blob = await data.blob();
   return await blob.text();
 });
+
+const isDesktop = ref<boolean>(false);
+
+//
+// Lifecycle
+//
+
+onMounted((): void => {
+  watch(useElementSize(document.body).width, (size: number): void => {
+    isDesktop.value = size >= BREAKPOINTS.DESKTOP;
+  });
+});
 </script>
 
 <template>
@@ -84,7 +96,7 @@ const readmeFile = asyncComputed<string>(async () => {
             @click="() => emits('download')"
           >
             <ArrowDownTray class="text-white" />
-            {{ $t("createDownload") }}
+            {{ isDesktop ? $t("createDownload") : "" }}
           </button>
         </div>
       </div>

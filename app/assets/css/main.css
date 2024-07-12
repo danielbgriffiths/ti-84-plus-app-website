@@ -23,3 +23,7 @@ pre {
 .mockup-code {
     background-color: #2d3442 !important;
 }
+
+body {
+    overflow-x: hidden;
+}

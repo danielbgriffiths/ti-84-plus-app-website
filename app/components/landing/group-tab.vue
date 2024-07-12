@@ -35,7 +35,7 @@ const tooltipText = computed<string>(() =>
   >
     <div class="lg:p-2 text-neutral-700 no-select">
       {{ label }}
-      <div class="badge badge-primary">
+      <div class="badge badge-primary lg:px-[.563rem] px-[.15rem]">
         <div class="tooltip" :data-tip="tooltipText">
           <span class="text-white">+{{ group.size }}</span>
         </div>
