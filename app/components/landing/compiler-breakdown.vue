@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 // Third Party Imports
-import { useWindowScroll } from "@vueuse/core";
+import { useElementSize, useWindowScroll } from "@vueuse/core";
 
 // Local Imports
 import DownloadMock from "~/components/landing/compiler/download-mock.vue";
@@ -9,6 +9,7 @@ import RequestDownload from "~/components/landing/compiler/request-download.vue"
 import DiffBundle from "~/components/landing/compiler/diff-bundle.vue";
 import ReturnFile from "~/components/landing/compiler/return-file.vue";
 import StepIcon from "~/components/landing/compiler/step-icon.vue";
+import { BREAKPOINTS } from "~/constants";
 
 //
 // Setup
@@ -22,10 +23,17 @@ const windowScroll = useWindowScroll();
 
 const progress = ref<number>(0);
 const containerRef = ref<HTMLElement | null>(null);
+const isDesktop = ref<boolean>(true);
 
 //
 // Lifecycle
 //
+
+onMounted((): void => {
+  watch(useElementSize(document.body).width, (size: number): void => {
+    isDesktop.value = size >= BREAKPOINTS.DESKTOP;
+  });
+});
 
 watch(
   () => windowScroll.y.value,
@@ -75,7 +83,7 @@ function handleProgressBar(): void {
         </p>
       </div>
     </div>
-    <ul class="timeline timeline-vertical mb-16">
+    <ul v-if="isDesktop" class="timeline timeline-vertical mb-16">
       <!--
        Click Download Section
        -->
@@ -112,7 +120,7 @@ function handleProgressBar(): void {
       </li>
     </ul>
 
-    <ul class="timeline timeline-vertical mb-16">
+    <ul v-if="isDesktop" class="timeline timeline-vertical mb-16">
       <!--
        HTTP Request [application].download.py Blob
        -->
@@ -152,7 +160,7 @@ function handleProgressBar(): void {
       </li>
     </ul>
 
-    <ul class="timeline timeline-vertical">
+    <ul v-if="isDesktop" class="timeline timeline-vertical">
       <!--
        Return Compiled File
        -->
@@ -171,6 +179,7 @@ function handleProgressBar(): void {
     </ul>
 
     <progress
+      v-if="isDesktop"
       class="progress shadow-xl w-[388px] bottom-[24px] left-[75%] sticky [&::-webkit-progress-value]:bg-[#38719f] [&::-webkit-progress-bar]:bg-neutral-200"
       :value="progress"
       max="100"

@@ -30,10 +30,10 @@ const tooltipText = computed<string>(() =>
 <template>
   <NuxtLink
     role="tab"
-    class="tab min-h-[3rem]"
+    class="tab min-h-[3rem] lg:px-2 px-0"
     :class="{ 'tab-active': isActive }"
   >
-    <div class="p-2 text-neutral-700 no-select">
+    <div class="lg:p-2 text-neutral-700 no-select">
       {{ label }}
       <div class="badge badge-primary">
         <div class="tooltip" :data-tip="tooltipText">

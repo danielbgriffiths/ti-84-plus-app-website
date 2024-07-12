@@ -80,7 +80,9 @@ function onChangePage(page: number): void {
 </script>
 
 <template>
-  <div class="text-base font-semibold leading-7 flex justify-between items-end">
+  <div
+    class="text-base font-semibold leading-7 flex lg:justify-between lg:items-end lg:flex-row flex-col"
+  >
     <div role="tablist" class="tabs tabs-bordered">
       <GroupTab
         :label="$t('group.calculus')"
@@ -101,7 +103,7 @@ function onChangePage(page: number): void {
         @click="() => onChangeTab(GroupName.PreCalculus)"
       />
     </div>
-    <label class="form-control w-full max-w-xs">
+    <label class="form-control w-full max-w-xs lg:mt-0 mt-4">
       <div class="label">
         <span class="label-text">
           {{ $t("landing.featuredApplications.tabs.pageSize") }}
@@ -119,7 +121,9 @@ function onChangePage(page: number): void {
       </select>
     </label>
   </div>
-  <div class="mt-16 flex justify-start items-end flex-wrap gap-8">
+  <div
+    class="mt-16 flex justify-center items-end flex-wrap lg:flex-row flex-col gap-8"
+  >
     <template v-for="(item, idx) in pageItems" :key="idx">
       <ApplicationCard :item="item" :group="activeTab" />
     </template>

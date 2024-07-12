@@ -57,7 +57,7 @@ import Globe from "~/components/icons/globe.vue";
                 <dt
                   class="flex justify-start items-center font-semibold text-neutral-700 cursor-default no-select"
                 >
-                  <Globe />
+                  <Globe :is-content="true" />
                   {{ $t("landing.overview.comprehensive.title") }}
                 </dt>
                 <dd class="inline text-neutral-500 cursor-default no-select">

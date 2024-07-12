@@ -16,9 +16,9 @@ defineProps<Props>();
 </script>
 
 <template>
-  <div class="mr-4 h-full w-[30%]">
-    <div class="card w-96 bg-base-100 shadow-xl">
-      <div class="card-body">
+  <div class="h-full lg:w-[30%] w-full">
+    <div class="card min-w-[200px] w-full bg-base-100 shadow-xl">
+      <div class="card-body lg:p-2 lg:pt-4">
         <h2 class="card-title text-neutral-700 no-select cursor-default">
           {{ item.title }}
         </h2>
