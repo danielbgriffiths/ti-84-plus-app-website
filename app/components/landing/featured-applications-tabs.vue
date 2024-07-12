@@ -83,7 +83,10 @@ function onChangePage(page: number): void {
   <div
     class="text-base font-semibold leading-7 flex lg:justify-between lg:items-end lg:flex-row flex-col"
   >
-    <div role="tablist" class="tabs tabs-bordered">
+    <div
+      role="tablist"
+      class="tabs tabs-bordered sm:flex-col lg:grid md:grid flex flex-col"
+    >
       <GroupTab
         :label="$t('group.calculus')"
         :group="calculusGroup"

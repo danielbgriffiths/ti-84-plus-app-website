@@ -30,7 +30,7 @@ const tooltipText = computed<string>(() =>
 <template>
   <NuxtLink
     role="tab"
-    class="tab min-h-[3rem] lg:px-2 px-0"
+    class="tab min-h-[3rem] lg:px-2 px-0 md:w-auto lg:w-auto w-full"
     :class="{ 'tab-active': isActive }"
   >
     <div class="lg:p-2 text-neutral-700 no-select">
