@@ -130,37 +130,38 @@ function onToggleMobile(): void {
         {{ $t("navigation.info") }}
       </NuxtLink>
     </div>
+    <!-- TODO Fix state management for locale -->
     <div class="flex flex-1 justify-end lg:pr-8 pr-4">
-      <div class="dropdown dropdown-bottom">
-        <div
-          tabindex="0"
-          role="button"
-          class="btn btn-ghost text-neutral-700 lg:mr-2"
-        >
-          <Globe :is-content="false" />
-          {{ viewportWidth >= BREAKPOINTS.DESKTOP ? activeLocaleText : "" }}
-        </div>
-        <ul
-          tabindex="0"
-          class="dropdown-content z-[1] menu py-2 shadow bg-base-100 rounded-box w-52"
-        >
-          <li
-            v-for="item in Object.keys(LOCALE_TEXTS)"
-            :class="{ 'is-active': i18n.locale.value === item }"
-          >
-            <span
-              class="pl-[0.5rem] pr-[0.5rem]"
-              @click="() => onSelectLocale(item)"
-              :aria-label="`Change locale to ${LOCALE_TEXTS[item]}`"
-            >
-              <CircleCheck v-if="i18n.locale.value === item" />
-              {{ LOCALE_TEXTS[item] }}
-            </span>
-          </li>
-        </ul>
-      </div>
+      <!--      <div class="dropdown dropdown-bottom">-->
+      <!--        <div-->
+      <!--          tabindex="0"-->
+      <!--          role="button"-->
+      <!--          class="btn btn-ghost text-neutral-700 lg:mr-2"-->
+      <!--        >-->
+      <!--          <Globe :is-content="false" />-->
+      <!--          {{ viewportWidth >= BREAKPOINTS.DESKTOP ? activeLocaleText : "" }}-->
+      <!--        </div>-->
+      <!--        <ul-->
+      <!--          tabindex="0"-->
+      <!--          class="dropdown-content z-[1] menu py-2 shadow bg-base-100 rounded-box w-52"-->
+      <!--        >-->
+      <!--          <li-->
+      <!--            v-for="item in Object.keys(LOCALE_TEXTS)"-->
+      <!--            :class="{ 'is-active': i18n.locale.value === item }"-->
+      <!--          >-->
+      <!--            <span-->
+      <!--              class="pl-[0.5rem] pr-[0.5rem]"-->
+      <!--              @click="() => onSelectLocale(item)"-->
+      <!--              :aria-label="`Change locale to ${LOCALE_TEXTS[item]}`"-->
+      <!--            >-->
+      <!--              <CircleCheck v-if="i18n.locale.value === item" />-->
+      <!--              {{ LOCALE_TEXTS[item] }}-->
+      <!--            </span>-->
+      <!--          </li>-->
+      <!--        </ul>-->
+      <!--      </div>-->
       <NuxtLink
-        class="text-sm leading-6 font-semibold text-neutral-700 flex items-center justify-center min-w-[60px]"
+        class="text-sm min-h-[50px] leading-6 font-semibold text-neutral-700 flex items-center justify-center min-w-[60px]"
         :class="{ 'is-active-link': route.path === '/donate' }"
         to="/donate"
       >
